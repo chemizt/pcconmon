@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+#Build System
+**/build/**
+
+#Compiler Outputs
+**/out/**
