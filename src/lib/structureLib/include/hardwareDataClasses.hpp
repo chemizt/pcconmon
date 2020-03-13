@@ -1,7 +1,7 @@
 #ifndef IG_HARDWARE_CLASSES_SL
 #define IG_HARDWARE_CLASSES_SL
 
-#include "coreClasses.hpp"
+#include "coreDataClasses.hpp"
 #include "commonInclude.hpp"
 
 class Processor : public Device

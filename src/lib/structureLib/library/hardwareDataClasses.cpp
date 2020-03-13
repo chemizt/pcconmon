@@ -1,4 +1,4 @@
-#include "hardwareClasses.hpp"
+#include "hardwareDataClasses.hpp"
 
 string Processor::getSocket()
 {   
