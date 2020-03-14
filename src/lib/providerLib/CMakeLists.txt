@@ -5,8 +5,16 @@ project(providerLib)
 file(
     GLOB
     SOURCE_LIB
-    library/*.cpp
+    library/[!winCmdExec.cpp]*.cpp
 )
+
+if (WIN32) 
+set(
+    SOURCE_LIB
+    ${SOURCE_LIB}
+    library/winCmdExec.cpp
+)
+endif()
 
 include_directories(include)
 

@@ -16,5 +16,12 @@ int main()
     ProcessorProvider* prov = new ProcessorProvider();
     Processor* newCPU = prov->createManagedElement();
 
-    cout << newCPU->getId() << "\n" << newCPU->getName() << "\n" << newCPU->getMaxClock() << "\n";
+    cout << "ID: " << newCPU->getId() << "\nName: " 
+    << newCPU->getName() << "\nBus Clock: " 
+    << newCPU->getBusClock() << "\nMax Clock: " 
+    << newCPU->getMaxClock() << "\nCurrent Clock: "
+    << newCPU->getCurrentClock() << "\nFamily: "
+    << newCPU->getFamily() << "\nSocket: "
+    << newCPU->getSocket() << "\nAddress Width: "
+    << newCPU->getWidth() << "\n";
 }

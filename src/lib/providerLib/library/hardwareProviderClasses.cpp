@@ -16,6 +16,7 @@ Processor* ProcessorProvider::createManagedElement()
     regex maxClockRgx("MaxClockSpeed=([0-9]+)");
     regex currentClockRgx("CurrentClockSpeed=([0-9]+)");
     regex familyRgx("Family=(.+)");
+    regex idRgx("ProcessorId=(.+)");
     regex nameRgx("\\WName=(.+)");
     regex socketRgx("SocketDesignation=(.+)");
     regex widthRgx("AddressWidth=([0-9]+)");
@@ -24,6 +25,7 @@ Processor* ProcessorProvider::createManagedElement()
     regex currentClockRgx("Current Speed: ([0-9]+)");
     regex maxClockRgx("Max Speed: ([0-9]+) MHz");
     regex familyRgx("Family: (.+)");
+    regex idRgx("ID: (.+)");
     regex nameRgx("Version: (.+)");
     regex socketRgx("Socket Designation: (.+)");
     regex widthRgx("([0-9]+)-bit capable");
@@ -49,6 +51,11 @@ Processor* ProcessorProvider::createManagedElement()
         result->setFamily(matching[1]);
     }
 
+    if (regex_search(infoString, matching, idRgx)) 
+    {
+        result->setId(matching[1]);
+    }
+    
     if (regex_search(infoString, matching, nameRgx)) 
     {
         result->setName(matching[1]);
