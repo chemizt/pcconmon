@@ -16,4 +16,4 @@ jobs:
     - name: generate build system
       run: mkdir build && cd build && cmake ..
     - name: build
-      run: make release
+      run: cd build && make release
