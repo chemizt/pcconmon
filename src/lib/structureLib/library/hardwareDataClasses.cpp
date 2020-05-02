@@ -77,32 +77,74 @@ void Processor::setType(string newType)
 
 void Processor::setSocket(string newSocket)
 {
-    this->socket = newSocket;
+    if (newSocket == "")
+    {
+        this->socket = "N/A";
+    }
+    else
+    {
+        this->socket = newSocket;
+    }
 }
 
 void Processor::setFamily(string newFamily)
 {
-    this->family = newFamily;
+    if (newFamily == "")
+    {
+        this->family = "N/A";
+    }
+    else
+    {
+        this->family = newFamily;
+    }
 }
 
 void Processor::setCurrentClock(string newCurrentClock)
 {
-    this->currentClock = newCurrentClock;
+    if (newCurrentClock == "")
+    {
+        this->currentClock = "N/A";
+    }
+    else
+    {
+        this->currentClock = newCurrentClock;
+    }
 }
 
 void Processor::setMaxClock(string newMaxClock)
 {
-    this->maxClock = newMaxClock;
+    if (newMaxClock == "")
+    {
+        this->maxClock = "N/A";
+    }
+    else
+    {
+        this->maxClock = newMaxClock;
+    }
 }
 
 void Processor::setBusClock(string newBusClock)
 {
-    this->busClock = newBusClock;
+    if (newBusClock == "")
+    {
+        this->busClock = "N/A";
+    }
+    else
+    {
+        this->busClock = newBusClock;
+    }
 }
 
 void Processor::setVoltage(string newVoltage)
 {
-    this->voltage = newVoltage;
+    if (newVoltage == "")
+    {
+        this->socket = "N/A";
+    }
+    else
+    {
+        this->socket = newVoltage;
+    }
 }
 
 void Processor::setWidth(uint16_t newWidth)
@@ -123,4 +165,95 @@ void Processor::setEnabledCoreCount(uint16_t newEnabledCoreCount)
 void Processor::setThreadCount(uint16_t newThreadCount)
 {
     this->threadCount = newThreadCount;
+}
+
+string VideoController::getVideoProcessor()
+{
+    return this->videoProcessor;
+}
+
+uint16_t VideoController::getCurrentHorizontalResolution()
+{
+    return this->currentHorizontalResolution;
+}
+
+uint16_t VideoController::getCurrentRefreshRate()
+{
+    return this->currentRefreshRate;
+}
+
+uint16_t VideoController::getCurrentVerticalResolution()
+{
+    return this->currentVerticalResolution;
+}
+
+uint16_t VideoController::getMaxRefreshRate()
+{
+    return this->maxRefreshRate;
+}
+
+uint16_t VideoController::getMinRefreshRate()
+{
+    return this->minRefreshRate;
+}
+
+void VideoController::setVideoProcessor(string newVideoProcessor)
+{
+    if (newVideoProcessor == "")
+    {
+        this->videoProcessor = "N/A";
+    }
+    else
+    {
+        this->videoProcessor = newVideoProcessor;
+    }
+}
+
+void VideoController::setDescription(string newDescription)
+{
+    if (newDescription == "")
+    {
+        this->videoProcessor = "Graphics Processing Unit";
+    }
+    else
+    {
+        this->videoProcessor = newDescription;
+    }
+}
+
+void VideoController::setType(string newType)
+{
+    if (newType == "")
+    {
+        this->videoProcessor = "GPU";
+    }
+    else
+    {
+        this->videoProcessor = newType;
+    }
+}
+
+void VideoController::setCurrentHorizontalResolution(uint16_t newCurrentHorizontalResolution)
+{
+    this->currentHorizontalResolution = newCurrentHorizontalResolution;
+}
+
+void VideoController::setCurrentRefreshRate(uint16_t newCurrentRefreshRate)
+{
+    this->currentRefreshRate = newCurrentRefreshRate;
+}
+
+void VideoController::setCurrentVerticalResolution(uint16_t newCurrentVerticalResolution)
+{
+    this->currentVerticalResolution = newCurrentVerticalResolution;
+}
+
+void VideoController::setMaxRefreshRate(uint16_t newMaxRefreshRate)
+{
+    this->maxRefreshRate = newMaxRefreshRate;
+}
+
+void VideoController::setMinRefreshRate(uint16_t newMinRefreshRate)
+{
+    this->minRefreshRate = newMinRefreshRate;
 }

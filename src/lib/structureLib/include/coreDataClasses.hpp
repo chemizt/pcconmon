@@ -6,36 +6,36 @@
 class ManagedElement
 {
     protected:
+        string description;
         string id;
         string name;
-        string description;
     public:
         ManagedElement() { };
+        string getDescription();
         string getId();
         string getName();
-        string getDescription();
+        virtual void setDescription(string newDescription) = 0;
         void setId(string newId);
         void setName(string newName);
-        virtual void setDescription(string newDescription) = 0;
 };
 
 class Device : public ManagedElement
 {
     protected:
-        string type;
-        string manufacturer;
-        string version;
         string capabilities;
+        string manufacturer;
+        string type;
+        string version;
     public:
         using ManagedElement::ManagedElement;
-        string getType();
-        string getManufacturer();
-        string getVersion();
         string getCapabilities();
+        string getManufacturer();
+        string getType();
+        string getVersion();
         virtual void setType(string newType) = 0;
+        void setCapabilities(string newCapabilities);
         void setManufacturer(string newManufacturer);
         void setVersion(string newVersion);
-        void setCapabilities(string newCapabilities);
 };
 
 #endif
