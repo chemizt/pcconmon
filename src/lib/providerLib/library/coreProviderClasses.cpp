@@ -1,6 +1,6 @@
 #include "coreProviderClasses.hpp"
 
-string Provider::executeCommand(string command)
+string Provider::executeCommand(string cmdToExec)
 {
     string result = "";
 
@@ -10,13 +10,14 @@ string Provider::executeCommand(string command)
         string stdErr = "";
         uint32_t retCode = 0;
 
-        SystemCapture(command, stdOut, stdErr, retCode);
+        SystemCapture(cmdToExec, stdOut, stdErr, retCode);
 
         if (!retCode) result = stdOut;
     }
     #else
     {
-        redi::ipstream command(command, redi::pstreams::pstdout | redi::pstreams::pstderr);
+        string buffer;
+        redi::ipstream command(cmdToExec, redi::pstreams::pstdout | redi::pstreams::pstderr);
     
         while (std::getline(command.out(), buffer))
         {

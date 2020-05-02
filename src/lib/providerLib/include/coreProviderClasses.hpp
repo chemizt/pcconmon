@@ -15,7 +15,7 @@ class Provider
 {
     protected:
         virtual string gatherInfo() = 0;
-        string executeCommand(string command);
+        string executeCommand(string cmdToExec);
     public:
         Provider() { };
         virtual ManagedElement* createManagedElement() = 0;
