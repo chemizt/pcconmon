@@ -13,21 +13,25 @@ Processor* ProcessorProvider::createManagedElement()
 
     #ifdef _WIN32
     regex busClockRgx("ExtClock=([0-9]+)");
-    regex maxClockRgx("MaxClockSpeed=([0-9]+)");
+    regex coreRgx("NumberOfCores=([0-9]+)");
     regex currentClockRgx("CurrentClockSpeed=([0-9]+)");
     regex familyRgx("Family=(.+)");
     regex idRgx("ProcessorId=(.+)");
+    regex maxClockRgx("MaxClockSpeed=([0-9]+)");
     regex nameRgx("\\WName=(.+)");
     regex socketRgx("SocketDesignation=(.+)");
+    regex threadRgx("ThreadCount=([0-9]+)");
     regex widthRgx("AddressWidth=([0-9]+)");
     #else
     regex busClockRgx("External Clock: ([0-9]+)");
+    regex coreRgx("Core Count: ([0-9]+)");
     regex currentClockRgx("Current Speed: ([0-9]+)");
-    regex maxClockRgx("Max Speed: ([0-9]+) MHz");
     regex familyRgx("Family: (.+)");
     regex idRgx("ID: (.+)");
+    regex maxClockRgx("Max Speed: ([0-9]+) MHz");
     regex nameRgx("Version: (.+)");
     regex socketRgx("Socket Designation: (.+)");
+    regex threadRgx("Thread Count: ([0-9]+)");
     regex widthRgx("([0-9]+)-bit capable");
     #endif
     
@@ -71,6 +75,16 @@ Processor* ProcessorProvider::createManagedElement()
         result->setWidth(std::stoi(matching[1]));
     }
 
+    if (regex_search(infoString, matching, coreRgx))
+    {
+        result->setCoreCount(std::stoi(matching[1]));
+    }
+
+    if (regex_search(infoString, matching, threadRgx))
+    {
+        result->setThreadCount(std::stoi(matching[1]));
+    }
+
     return result;
 }
 
@@ -83,7 +97,7 @@ string ProcessorProvider::gatherInfo()
     string stdErr = "";
     uint32_t retCode = 0;
 
-    SystemCapture("wmic cpu list full", stdOut, stdErr, retCode);
+    SystemCapture("wmic cpu get /all /format:textvaluelist", stdOut, stdErr, retCode);
 
     if (!retCode) result << stdOut;
     #else

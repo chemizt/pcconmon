@@ -23,5 +23,7 @@ int main()
     << newCPU->getCurrentClock() << "\nFamily: "
     << newCPU->getFamily() << "\nSocket: "
     << newCPU->getSocket() << "\nAddress Width: "
-    << newCPU->getWidth() << "\n";
+    << newCPU->getWidth() << "\nCore Count: "
+    << newCPU->getCoreCount() << "\nThread Count: "
+    << newCPU->getThreadCount() << "\n";
 }
