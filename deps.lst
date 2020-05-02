@@ -1,2 +1,5 @@
 # list of Linux packages that pcconmon depends on
 read-edid
+lscpu
+dmidecode
+lshw

@@ -5,7 +5,7 @@ project(providerLib)
 file(
     GLOB
     SOURCE_LIB
-    library/[!winCmdExec.cpp]*.cpp
+    library/*[!winCmdExec].cpp
 )
 
 if (WIN32) 

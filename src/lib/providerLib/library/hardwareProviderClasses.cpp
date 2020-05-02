@@ -21,11 +21,11 @@ Processor* ProcessorProvider::createManagedElement()
     #else
     regex busClockRgx("External Clock: ([0-9]+)");
     regex coreRgx("Core Count: ([0-9]+)");
-    regex currentClockRgx("Current Speed: ([0-9]+)");
+    regex currentClockRgx("CPU MHz: +([0-9]+)");
     regex enabledCoreRgx("Core Enabled: ([0-9]+)");
     regex familyRgx("Family: (.+)");
     regex idRgx("ID: (.+)");
-    regex maxClockRgx("Max Speed: ([0-9]+) MHz");
+    regex maxClockRgx("CPU max MHz: +([0-9]+)");
     regex nameRgx("Version: (.+)");
     regex socketRgx("Socket Designation: (.+)");
     regex threadRgx("Thread Count: ([0-9]+)");
@@ -128,7 +128,7 @@ VideoController* VideoControllerProvider::createManagedElement()
     regex currentRefRateRgx("CurrentRefreshRate=([0-9]+)");
     regex refRateRgx("VertRefresh (([0-9]+)-([0-9]+))");
     regex resRgx("DisplaySize (([0-9]+) ([0-9]+))");
-    regex nameRgx("\\WName=(.+)");
+    regex nameRgx("product: (.+)");
     regex videoProcessorRgx("VideoProcessor=(.+)");
 
     if (regex_search(infoString, matching, refRateRgx)) 
@@ -172,60 +172,28 @@ VideoController* VideoControllerProvider::createManagedElement()
 
 string ProcessorProvider::gatherInfo()
 {
-    stringstream result;
+    string result = "";
 
     #ifdef _WIN32
-    string stdOut = "";
-    string stdErr = "";
-    uint32_t retCode = 0;
-
-    SystemCapture("wmic cpu get /all /format:textvaluelist", stdOut, stdErr, retCode);
-
-    if (!retCode) result << stdOut;
+    result += executeCommand("wmic cpu get /all /format:textvaluelist");
     #else
-    string buffer;
-    redi::ipstream command("dmidecode -t 4", redi::pstreams::pstdout | redi::pstreams::pstderr);
-    
-    while (std::getline(command.out(), buffer))
-    {
-        result << buffer << "\n";
-    }
-    
-    if (command.eof() && command.fail())
-    {
-        command.clear();
-    }
+    result += executeCommand("dmidecode -t 4");
+    result += executeCommand("lscpu");
     #endif
 
-    return result.str();
+    return result;
 }
 
 string VideoControllerProvider::gatherInfo()
 {
-    stringstream result;
+    string result = "";
 
     #ifdef _WIN32
-    string stdOut = "";
-    string stdErr = "";
-    uint32_t retCode = 0;
-
-    SystemCapture("wmic path win32_videocontroller get /all /format:textvaluelist", stdOut, stdErr, retCode);
-
-    if (!retCode) result << stdOut;
+    result += executeCommand("wmic path win32_videocontroller get /all /format:textvaluelist");
     #else
-    string buffer;
-    redi::ipstream command("get-edid | parse-edid", redi::pstreams::pstdout | redi::pstreams::pstderr);
-    
-    while (std::getline(command.out(), buffer))
-    {
-        result << buffer << "\n";
-    }
-    
-    if (command.eof() && command.fail())
-    {
-        command.clear();
-    }
+    result += executeCommand("get-edid | parse-edid");
+    result += executeCommand("lshw -c display");
     #endif
 
-    return result.str();
+    return result;
 }

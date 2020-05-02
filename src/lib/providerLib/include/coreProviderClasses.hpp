@@ -11,12 +11,11 @@
 #include "pstream.h"
 #endif
 
-using std::stringstream;
-
 class Provider
 {
     protected:
         virtual string gatherInfo() = 0;
+        string executeCommand(string command);
     public:
         Provider() { };
         virtual ManagedElement* createManagedElement() = 0;

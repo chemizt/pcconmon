@@ -1,8 +1,6 @@
 #include <iostream>
 #include <functional>
 
-#include "coreDataClasses.hpp"
-#include "auxClasses.hpp"
 #include "hardwareDataClasses.hpp"
 #include "hardwareProviderClasses.hpp"
 

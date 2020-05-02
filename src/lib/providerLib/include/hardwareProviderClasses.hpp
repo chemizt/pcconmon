@@ -13,20 +13,23 @@ using std::regex_search;
 
 class ProcessorProvider : public Provider
 {
+    private:
+        string gatherInfo();
     public:
         using Provider::Provider;
         ProcessorProvider() { };
         Processor* createManagedElement();
-        string gatherInfo();
+        
 };
 
 class VideoControllerProvider : public Provider
 {
+    private:
+        string gatherInfo();
     public:
         using Provider::Provider;
         VideoControllerProvider() { };
         VideoController* createManagedElement();
-        string gatherInfo();
 };
 
 #endif
