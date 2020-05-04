@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: Build
       run: cd build && make release
-  export artifacts:
+  export_artifacts:
     runs-on: ubuntu-latest
     steps:    
     - name: Upload a Build Artifact
