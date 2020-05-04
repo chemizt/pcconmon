@@ -18,7 +18,6 @@ class Processor : public Device
         uint16_t threadCount;
         uint16_t width;
     public:
-        using Device::ManagedElement;
         string getBusClock();
         string getCurrentClock();
         string getFamily();
@@ -53,7 +52,6 @@ class VideoController : public Device
         uint16_t maxRefreshRate;
         uint16_t minRefreshRate;
     public:
-        using Device::ManagedElement;
         string getVideoProcessor();
         uint16_t getCurrentHorizontalResolution();
         uint16_t getCurrentRefreshRate();

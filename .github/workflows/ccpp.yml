@@ -33,9 +33,9 @@ jobs:
       with:
         args: git submodule update --init --recursive
     - name: Generate build system
-      run: mkdir build && cd build && cmake ..
+      run: rm PreLoad.cmake && mkdir build && cd build && cmake ..
     - name: Build
-      run: cd build && make release
+      run: cd build && MSBuild pcConMon.sln /p:Configuration=Release /p:Platform=x64
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:

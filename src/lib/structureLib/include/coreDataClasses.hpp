@@ -27,7 +27,6 @@ class Device : public ManagedElement
         string type;
         string version;
     public:
-        using ManagedElement::ManagedElement;
         string getCapabilities();
         string getManufacturer();
         string getType();
