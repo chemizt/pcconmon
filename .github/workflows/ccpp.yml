@@ -7,10 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    
+  runs-on: ubuntu-latest
+  prepare:
     steps:
     - name: Checkout master
       uses: actions/checkout@v2
@@ -18,8 +16,12 @@ jobs:
       uses: textbook/git-checkout-submodule-action@2.1.1
     - name: Generate build system
       run: mkdir build && cd build && cmake ..
+  build:
+    steps:
     - name: Build
       run: cd build && make release
+  export artifacts:
+    steps:    
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
