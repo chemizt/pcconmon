@@ -29,9 +29,7 @@ jobs:
     - name: Checkout master
       uses: actions/checkout@v2
     - name: Checkout submodules
-      uses: srt32/git-actions@v0.0.3
-      with:
-        args: git submodule update --init --recursive
+      run: git submodule update --init --recursive
     - name: Generate build system
       run: rm PreLoad.cmake && mkdir build && cd build && cmake ..
     - name: Build
@@ -39,5 +37,5 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: testMain
-        path: out/bin/release/testMain      
+        name: testMain.exe
+        path: out/bin/release/testMain.exe
