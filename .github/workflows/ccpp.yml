@@ -37,5 +37,5 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: testMain
-        path: out/bin/release/testMain      
+        name: testMain.exe
+        path: out/bin/release/testMain.exe
