@@ -12,8 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v2
-    - name: generate build system
+    - name: Checkout master
+      uses: actions/checkout@v2
+    - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@2.1.1
+    - name: Generate build system
       run: mkdir build && cd build && cmake ..
-    - name: build
+    - name: Build
       run: cd build && make release
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: testMain
+        path: out/bin/release/testMain
+    
