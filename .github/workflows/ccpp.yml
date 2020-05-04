@@ -30,7 +30,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Checkout submodules
       run: git submodule update --init --recursive
-    - name: setup-msbuild
+    - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1
     - name: Generate build system
       run: rm PreLoad.cmake && mkdir build && cd build && cmake ..
