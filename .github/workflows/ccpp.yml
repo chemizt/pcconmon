@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout master
@@ -23,4 +23,21 @@ jobs:
       with:
         name: testMain
         path: out/bin/release/testMain
-    
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@v2
+    - name: Checkout submodules
+      uses: srt32/git-actions@v0.0.3
+      with:
+        args: git submodule update --init --recursive
+    - name: Generate build system
+      run: mkdir build && cd build && cmake ..
+    - name: Build
+      run: cd build && make release
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: testMain
+        path: out/bin/release/testMain      
