@@ -1,6 +1,6 @@
 #include "coreProviderClasses.hpp"
 
-string Provider::executeCommand(string cmdToExec)
+string CommandExecutor::executeCommand(string cmdToExec)
 {
     string result = "";
 
@@ -31,5 +31,22 @@ string Provider::executeCommand(string cmdToExec)
     }
     #endif
 
+    result += "##########\n";
+
     return result;
+}
+
+vector<ManagedElement*> Provider::getAllManagedElements()
+{
+    return this->createdManagedElements;
+}
+
+uint16_t Provider::countRegexMatches(string infoString, string searchRegex)
+{
+    regex rgx(searchRegex);
+
+    auto matchStart = sregex_iterator(infoString.begin(), infoString.end(), rgx);
+    auto matchEnd = sregex_iterator();
+
+    return std::distance(matchStart, matchEnd);
 }

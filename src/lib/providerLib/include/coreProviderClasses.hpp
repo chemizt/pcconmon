@@ -1,8 +1,6 @@
 #ifndef IG_CORE_CLASSES_PL
 #define IG_CORE_CLASSES_PL
 
-#include <sstream>
-
 #include "commonInclude.hpp"
 #include "coreDataClasses.hpp"
 #ifdef _WIN32
@@ -11,14 +9,25 @@
 #include "pstream.h"
 #endif
 
+class CommandExecutor
+{
+    public:
+        CommandExecutor() { };
+        string executeCommand(string cmdToExec);
+};
+
 class Provider
 {
     protected:
-        virtual string gatherInfo() = 0;
-        string executeCommand(string cmdToExec);
+        CommandExecutor* cmdExecutor;
+        vector<ManagedElement*> createdManagedElements;
+        virtual void createManagedElement(string infoString) = 0;
+        virtual string gatherBasicInfo() = 0;
+        uint16_t countRegexMatches(string infoString, string searchRegex);
     public:
-        Provider() { };
-        virtual ManagedElement* createManagedElement() = 0;
+        Provider() { cmdExecutor = new CommandExecutor(); };
+        virtual void scanForManagedElements() = 0;
+        vector<ManagedElement*> getAllManagedElements();
 };
 
 #endif

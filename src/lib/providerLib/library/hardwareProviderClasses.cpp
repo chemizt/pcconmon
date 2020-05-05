@@ -1,9 +1,8 @@
 #include "hardwareProviderClasses.hpp"
 
-Processor* ProcessorProvider::createManagedElement()
+void ProcessorProvider::createManagedElement(string infoString)
 {
     Processor* result = new Processor();
-    string infoString = gatherInfo();
     smatch matching;
 
     #ifdef _WIN32
@@ -87,13 +86,12 @@ Processor* ProcessorProvider::createManagedElement()
         result->setEnabledCoreCount(std::stoi(matching[1]));
     }
 
-    return result;
+    createdManagedElements.push_back(result);
 }
 
-VideoController* VideoControllerProvider::createManagedElement()
+void VideoControllerProvider::createManagedElement(string infoString)
 {
     VideoController* result = new VideoController();
-    string infoString = gatherInfo();
     smatch matching;
 
     #ifdef _WIN32
@@ -124,31 +122,31 @@ VideoController* VideoControllerProvider::createManagedElement()
     {
         result->setCurrentVerticalResolution(std::stoi(matching[1]));
     }
-    #else
-    regex currentRefRateRgx("CurrentRefreshRate=([0-9]+)");
-    regex refRateRgx("VertRefresh (([0-9]+)-([0-9]+))");
-    regex resRgx("DisplaySize (([0-9]+) ([0-9]+))");
+    #else // TODO: work out a way to get video processor info and current refresh rate (LINUX)
+    regex currentRefRateRgx("CurrentRefreshRate=([0-9]+)"); // TODO rework this
+    regex refRateRgx("VertRefresh ([0-9]+)-([0-9]+)");
+    regex resRgx("DisplaySize ([0-9]+) ([0-9]+)");
     regex nameRgx("product: (.+)");
-    regex videoProcessorRgx("VideoProcessor=(.+)");
+    regex videoProcessorRgx("VideoProcessor=(.+)"); // TODO rework that
 
     if (regex_search(infoString, matching, refRateRgx)) 
     {
-        result->setMaxRefreshRate(std::stoi(matching[3]));
+        result->setMaxRefreshRate(std::stoi(matching[2]));
     }
 
     if (regex_search(infoString, matching, refRateRgx)) 
     {
-        result->setMinRefreshRate(std::stoi(matching[2]));
+        result->setMinRefreshRate(std::stoi(matching[1]));
     }
 
     if (regex_search(infoString, matching, resRgx)) 
     {
-        result->setCurrentHorizontalResolution(std::stoi(matching[2]));
+        result->setCurrentHorizontalResolution(std::stoi(matching[1]));
     }
 
     if (regex_search(infoString, matching, resRgx)) 
     {
-        result->setCurrentVerticalResolution(std::stoi(matching[3]));
+        result->setCurrentVerticalResolution(std::stoi(matching[2]));
     }
     #endif
 
@@ -167,33 +165,90 @@ VideoController* VideoControllerProvider::createManagedElement()
         result->setVideoProcessor(matching[1]);
     }
 
-    return result;
+    createdManagedElements.push_back(result);
 }
 
-string ProcessorProvider::gatherInfo()
+void DiskDriveProvider::createManagedElement(string infoString)
+{
+
+}
+
+string ProcessorProvider::gatherBasicInfo()
 {
     string result = "";
 
     #ifdef _WIN32
-    result += executeCommand("wmic cpu get /all /format:textvaluelist");
+    result += cmdExecutor->executeCommand("wmic cpu get /all /format:textvaluelist");
     #else
-    result += executeCommand("dmidecode -t 4");
-    result += executeCommand("lscpu");
+    result += cmdExecutor->executeCommand("dmidecode -t 4");
+    result += cmdExecutor->executeCommand("lscpu");
     #endif
 
     return result;
 }
 
-string VideoControllerProvider::gatherInfo()
+string VideoControllerProvider::gatherBasicInfo()
 {
     string result = "";
 
     #ifdef _WIN32
-    result += executeCommand("wmic path win32_videocontroller get /all /format:textvaluelist");
+    result += cmdExecutor->executeCommand("wmic path win32_videocontroller get /all /format:textvaluelist");
     #else
-    result += executeCommand("get-edid | parse-edid");
-    result += executeCommand("lshw -c display");
+    result += cmdExecutor->executeCommand("get-edid | parse-edid");
+    result += cmdExecutor->executeCommand("lshw -c display");
     #endif
 
     return result;
+}
+
+string DiskDriveProvider::gatherBasicInfo()
+{
+    string result = "";
+
+    #ifdef _WIN32
+    result += cmdExecutor->executeCommand("wmic path win32_diskdrive get /all /format:textvaluelist");
+    #else
+    result += cmdExecutor->executeCommand("lshw -c disk");
+    #endif
+
+    return result;
+}
+
+void ProcessorProvider::scanForManagedElements()
+{
+    string scanResult = this->gatherBasicInfo();
+    string srcRgx;
+
+    #ifdef _WIN32
+    srcRgx = "ProcessorId=";
+    #else
+    srcRgx = "ID: \w+"
+    #endif
+
+    if (countRegexMatches(scanResult, srcRgx) == 1)
+    {
+        this->createManagedElement(scanResult);
+    } // TODO: implement else
+}
+
+void VideoControllerProvider::scanForManagedElements()
+{
+    string scanResult = this->gatherBasicInfo();
+    string srcRgx;
+
+    #ifdef _WIN32
+    srcRgx = "VideoProcessor=";
+    #else
+    srcRgx = "physical id"
+    #endif
+
+    if (countRegexMatches(scanResult, srcRgx) == 1)
+    {
+        this->createManagedElement(scanResult);
+    } // TODO: implement else
+}
+
+void DiskDriveProvider::scanForManagedElements()
+{
+    
 }
