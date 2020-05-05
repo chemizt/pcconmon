@@ -222,7 +222,7 @@ void ProcessorProvider::scanForManagedElements()
     #ifdef _WIN32
     srcRgx = "ProcessorId=";
     #else
-    srcRgx = "ID: \w+"
+    srcRgx = "ID: \\w+";
     #endif
 
     if (countRegexMatches(scanResult, srcRgx) == 1)
@@ -239,7 +239,7 @@ void VideoControllerProvider::scanForManagedElements()
     #ifdef _WIN32
     srcRgx = "VideoProcessor=";
     #else
-    srcRgx = "physical id"
+    srcRgx = "physical id";
     #endif
 
     if (countRegexMatches(scanResult, srcRgx) == 1)
