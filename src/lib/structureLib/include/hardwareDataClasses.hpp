@@ -61,11 +61,37 @@ class VideoController : public Device
         void setCurrentHorizontalResolution(uint16_t newCurrentHorizontalResolution);
         void setCurrentRefreshRate(uint16_t newCurrentRefreshRate);
         void setCurrentVerticalResolution(uint16_t newCurrentVerticalResolution);
+        void setDescription(string newDescription);
         void setMaxRefreshRate(uint16_t newMaxRefreshRate);
         void setMinRefreshRate(uint16_t newMinRefreshRate);
-        void setDescription(string newDescription);
         void setType(string newType);
         void setVideoProcessor(string newVideoProcessor);
+};
+
+class DiskDrive : public Device
+{
+    private:
+        string firmwareRevision;
+        string interfaceType;
+        string logicalName;
+        string model;
+        uint16_t bytesPerSector;
+        uint64_t size;
+    public:
+        string getFirmwareRevision();
+        string getInterfaceType();
+        string getLogicalName();
+        string getModel();
+        uint16_t getBytesPerSector();
+        uint64_t getSize();
+        void setBytesPerSector(uint16_t newBytesPerSector);
+        void setDescription(string newDescription);
+        void setFirmwareRevision(string newFirmwareRevision);
+        void setInterfaceType(string newInterfaceType);
+        void setLogicalName(string newLogicalName);
+        void setModel(string newModel);
+        void setSize(uint64_t newSize);
+        void setType(string newType);
 };
 
 #endif

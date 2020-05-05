@@ -45,6 +45,11 @@ string Device::getVersion()
     return this->version;
 }
 
+string Device::getSerialNumber()
+{
+    return this->serialNumber;
+}
+
 void Device::setManufacturer(string newManufacturer)
 {
     this->manufacturer = newManufacturer;
@@ -58,4 +63,9 @@ void Device::setVersion(string newVersion)
 void Device::setCapabilities(string newCapabilities)
 {
     this->capabilities = newCapabilities;
+}
+
+void Device::setSerialNumber(string newSerialNumber)
+{
+    this->serialNumber = newSerialNumber;
 }

@@ -213,11 +213,11 @@ void VideoController::setDescription(string newDescription)
 {
     if (newDescription == "")
     {
-        this->videoProcessor = "Graphics Processing Unit";
+        this->description = "Graphics Processing Unit";
     }
     else
     {
-        this->videoProcessor = newDescription;
+        this->description = newDescription;
     }
 }
 
@@ -225,11 +225,11 @@ void VideoController::setType(string newType)
 {
     if (newType == "")
     {
-        this->videoProcessor = "GPU";
+        this->type = "GPU";
     }
     else
     {
-        this->videoProcessor = newType;
+        this->type = newType;
     }
 }
 
@@ -256,4 +256,116 @@ void VideoController::setMaxRefreshRate(uint16_t newMaxRefreshRate)
 void VideoController::setMinRefreshRate(uint16_t newMinRefreshRate)
 {
     this->minRefreshRate = newMinRefreshRate;
+}
+
+string DiskDrive::getFirmwareRevision()
+{
+    return this->firmwareRevision;
+}
+
+string DiskDrive::getInterfaceType()
+{
+    return this->interfaceType;
+}
+
+string DiskDrive::getLogicalName()
+{
+    return this->logicalName;
+}
+
+string DiskDrive::getModel()
+{
+    return this->model;
+}
+
+uint16_t DiskDrive::getBytesPerSector()
+{
+    return this->bytesPerSector;
+}
+
+uint64_t DiskDrive::getSize()
+{
+    return this->size;
+}
+
+void DiskDrive::setFirmwareRevision(string newFirmwareRevision)
+{
+    if (newFirmwareRevision == "")
+    {
+        this->firmwareRevision = "N/A";
+    }
+    else
+    {
+        this->firmwareRevision = newFirmwareRevision;
+    }
+}
+
+void DiskDrive::setInterfaceType(string newInterfaceType)
+{
+    if (newInterfaceType == "")
+    {
+        this->interfaceType = "N/A";
+    }
+    else
+    {
+        this->interfaceType = newInterfaceType;
+    }
+}
+
+void DiskDrive::setLogicalName(string newLogicalName)
+{
+    if (newLogicalName == "")
+    {
+        this->logicalName = "N/A";
+    }
+    else
+    {
+        this->logicalName = newLogicalName;
+    }
+}
+
+void DiskDrive::setModel(string newModel)
+{
+    if (newModel == "")
+    {
+        this->model = "N/A";
+    }
+    else
+    {
+        this->model = newModel;
+    }
+}
+
+void DiskDrive::setBytesPerSector(uint16_t newBytesPerSector)
+{
+    this->bytesPerSector = newBytesPerSector;
+}
+
+void DiskDrive::setSize(uint64_t newSize)
+{
+    this->size = newSize;
+}
+
+void DiskDrive::setDescription(string newDescription)
+{
+    if (newDescription == "")
+    {
+        this->description = "Data Storage Unit";
+    }
+    else
+    {
+        this->description = newDescription;
+    }
+}
+
+void DiskDrive::setType(string newType)
+{
+    if (newType == "")
+    {
+        this->type = "Disk";
+    }
+    else
+    {
+        this->type = newType;
+    }
 }
