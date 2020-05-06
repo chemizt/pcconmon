@@ -31,6 +31,7 @@ class DiskDriveProvider : public Provider
 {
     private:
         string gatherBasicInfo();
+        string gatherAdvancedInfo(string elementName);
         void createManagedElement(string infoString);
     public:
         using Provider::Provider;

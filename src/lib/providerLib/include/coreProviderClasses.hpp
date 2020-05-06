@@ -24,6 +24,7 @@ class Provider
         virtual void createManagedElement(string infoString) = 0;
         virtual string gatherBasicInfo() = 0;
         uint16_t countRegexMatches(string infoString, string searchRegex);
+        vector<string> splitStringByRegex(string infoString, string splitRegex);
     public:
         Provider() { cmdExecutor = new CommandExecutor(); };
         virtual void scanForManagedElements() = 0;

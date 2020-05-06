@@ -1,5 +1,7 @@
 #include "hardwareProviderClasses.hpp"
 
+#pragma region createManagedElement
+
 void ProcessorProvider::createManagedElement(string infoString)
 {
     Processor* result = new Processor();
@@ -170,8 +172,13 @@ void VideoControllerProvider::createManagedElement(string infoString)
 
 void DiskDriveProvider::createManagedElement(string infoString)
 {
+    DiskDrive* dd = new DiskDrive();
 
+    createdManagedElements.push_back(dd);
 }
+
+#pragma endregion
+#pragma region gatherBasicInfo
 
 string ProcessorProvider::gatherBasicInfo()
 {
@@ -214,41 +221,61 @@ string DiskDriveProvider::gatherBasicInfo()
     return result;
 }
 
-void ProcessorProvider::scanForManagedElements()
+#pragma endregion
+#pragma region gatherAdvancedInfo
+
+string DiskDriveProvider::gatherAdvancedInfo(string basicInfo)
 {
-    string scanResult = this->gatherBasicInfo();
-    string srcRgx;
+    smatch matching;
+    string result = "";
 
-    #ifdef _WIN32
-    srcRgx = "ProcessorId=";
-    #else
-    srcRgx = "ID: \\w+";
-    #endif
-
-    if (countRegexMatches(scanResult, srcRgx) == 1)
+    if (regex_search(basicInfo, matching, regex("(\\/dev\\/\\w+)")))
     {
-        this->createManagedElement(scanResult);
-    } // TODO: implement else
+        result += cmdExecutor->executeCommand("hdparm -I " + matching[1].str());
+    }
+
+    return result;
 }
 
-void VideoControllerProvider::scanForManagedElements()
+#pragma endregion
+#pragma region scanForManagedElements
+
+void ProcessorProvider::scanForManagedElements() //TODO: work out a way to parse output for multiple CPUs
 {
     string scanResult = this->gatherBasicInfo();
-    string srcRgx;
+        
+    this->createManagedElement(scanResult);
+}
 
-    #ifdef _WIN32
-    srcRgx = "VideoProcessor=";
-    #else
-    srcRgx = "physical id";
-    #endif
-
-    if (countRegexMatches(scanResult, srcRgx) == 1)
-    {
-        this->createManagedElement(scanResult);
-    } // TODO: implement else
+void VideoControllerProvider::scanForManagedElements() //TODO: same as for ProcessorProvider
+{
+    string scanResult = this->gatherBasicInfo();
+        
+    this->createManagedElement(scanResult);
 }
 
 void DiskDriveProvider::scanForManagedElements()
 {
-    
+    string scanResult = this->gatherBasicInfo();
+    string splRgx;
+    vector<string> splResult;
+
+    #ifdef _WIN32
+    splRgx = "(\\r\\r\\n){2,3}";
+    #else
+    splRgx = "\\R\\s+\\*";
+    #endif
+
+    splResult = splitStringByRegex(scanResult, splRgx);
+
+    for (string subRes : splResult)
+    {
+        #ifdef _WIN32
+        this->createManagedElement(subRes);
+        #else
+        this->createManagedElement(subRes + this->gatherAdvancedInfo(subRes));
+        #endif
+    }
 }
+
+#pragma endregion

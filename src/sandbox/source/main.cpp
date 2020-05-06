@@ -13,21 +13,8 @@ using std::endl;
 
 int main()
 {
-    #ifndef _WIN32
-    CommandExecutor* cmdExec = new CommandExecutor;
-
-    cout << cmdExec->executeCommand("dmidecode -t 4");
-    cout << cmdExec->executeCommand("lscpu");
-    #else
-    ProcessorProvider* pprov = new ProcessorProvider();
-    VideoControllerProvider* gprov = new VideoControllerProvider();
-    pprov->scanForManagedElements();
-    gprov->scanForManagedElements();
-    vector<ManagedElement*> cpuRslt, gpuRslt;
-    cpuRslt = pprov->getAllManagedElements();
-    gpuRslt = gprov->getAllManagedElements();
-    Processor* myProc = (Processor*)cpuRslt.at(0);
-    VideoController* myGPU = (VideoController*)gpuRslt.at(0);
-    #endif
+    DiskDriveProvider* dprov = new DiskDriveProvider();
+    dprov->scanForManagedElements();
+    int size = dprov->getAllManagedElements().size();
     return 0;
 }

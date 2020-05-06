@@ -31,8 +31,6 @@ string CommandExecutor::executeCommand(string cmdToExec)
     }
     #endif
 
-    result += "##########\n";
-
     return result;
 }
 
@@ -49,4 +47,24 @@ uint16_t Provider::countRegexMatches(string infoString, string searchRegex)
     auto matchEnd = sregex_iterator();
 
     return std::distance(matchStart, matchEnd);
+}
+
+vector<string> Provider::splitStringByRegex(string infoString, string splitRegex)
+{
+    regex rgx(splitRegex);
+    smatch matching;
+    string currStr;
+    vector<string> result;
+
+    sregex_token_iterator iter(infoString.begin(), infoString.end(), rgx, -1);
+    sregex_token_iterator end;
+
+    for (; iter != end; ++iter)
+    {
+        currStr = *iter;
+
+        if (regex_search(currStr, matching, regex("\\w"))) result.push_back(*iter);
+    }
+
+    return result;
 }

@@ -12,6 +12,7 @@ using std::regex;
 using std::regex_search;
 using std::smatch;
 using std::sregex_iterator;
+using std::sregex_token_iterator;
 using std::string;
 using std::vector;
 
