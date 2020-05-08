@@ -176,10 +176,75 @@ void DiskDriveProvider::createManagedElement(string infoString)
     smatch matching;
 
     #ifdef _WIN32
-    
-    #else
+    regex bytesPerSectorRgx("BytesPerSector=(.+)");
+    regex fwRevRgx("FirmwareRevision=(.+)");
+    regex intTypeRgx("InterfaceType=(.+)");
+    regex logNameRgx("\\WDeviceID=(.+)");
+    regex manModelRgx("Model=(\\w+)* (.+)");
+    regex nameRgx("Caption=(.+)");
+    regex serNoRgx("SerialNumber=\\s*([\\w-_]+)");
+    regex sizeRgx("Size=(.+)");
 
+    if (regex_search(infoString, matching, intTypeRgx)) 
+    {
+        result->setInterfaceType(matching[1]);
+    }
+    #else
+    regex bytesPerSectorRgx("Physical Sector size:\\s+(\\d+)");
+    regex fwRevRgx("Firmware Revision:\\s+(\\w+)");
+    regex logNameRgx("logical name: (.+)");
+    regex manModelRgx("Model Number:\\s+(\\w+)* (\\w+)");
+    regex nameRgx("product: (.+)");
+    regex serNoRgx("serial: (.+)");
+    regex sizeRgx("device size with M = 1024*1024:\\s+(\\d+)");
+    regex versionRgx("version: (.+)");
+
+    if (regex_search(infoString, matching, versionRgx)) 
+    {
+        result->setVersion(matching[1]);
+    }
     #endif
+
+    if (regex_search(infoString, matching, bytesPerSectorRgx)) 
+    {
+        result->setBytesPerSector(std::stoi(matching[1]));
+    }
+    
+    if (regex_search(infoString, matching, fwRevRgx)) 
+    {
+        result->setFirmwareRevision(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, logNameRgx)) 
+    {
+        result->setLogicalName(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, manModelRgx)) 
+    {
+        result->setManufacturer(matching[1]);
+        result->setModel(matching[2]);
+    }
+
+    if (regex_search(infoString, matching, nameRgx)) 
+    {
+        result->setName(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, serNoRgx)) 
+    {
+        result->setSerialNumber(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, sizeRgx)) 
+    {
+        #ifdef _WIN32
+        result->setSize(std::stoull(matching[1]));
+        #else
+        result->setSize(std::stoull(matching[1]) * 1024 * 1024);
+        #endif
+        
+    }
 
     createdManagedElements.push_back(result);
 }

@@ -1,7 +1,4 @@
 #include <iostream>
-#include <functional>
-#include <algorithm>
-#include <iterator>
 
 #include "coreProviderClasses.hpp"
 #include "hardwareDataClasses.hpp"
@@ -15,6 +12,26 @@ int main()
 {
     DiskDriveProvider* dprov = new DiskDriveProvider();
     dprov->scanForManagedElements();
-    int size = dprov->getAllManagedElements().size();
+    vector<ManagedElement*> drives = dprov->getAllManagedElements();
+
+    for (ManagedElement* drive : drives)
+    {
+        DiskDrive* castDrive = (DiskDrive*)drive;
+
+        cout << "Name: " << castDrive->getName()
+        << "\nManufacturer: " << castDrive->getManufacturer()
+        << "\nModel: " << castDrive->getModel()
+        << "\nSerial Number: " << castDrive->getSerialNumber()
+        << "\nLogical Name: " << castDrive->getLogicalName()
+        << "\nBytes per Sector: " << castDrive->getBytesPerSector()
+        << "\nCapacity: " << int(castDrive->getSize() / 1024 / 1024)
+        << "MB\nFirmware Revision: " << castDrive->getFirmwareRevision()
+        << "\nVersion: " << castDrive->getVersion()
+        << "\nInterface Type: " << castDrive->getInterfaceType()
+        << "\nType: " << castDrive->getType()
+        << "\nDescription: " << castDrive->getDescription()
+        << "\n\n";
+    }
+
     return 0;
 }
