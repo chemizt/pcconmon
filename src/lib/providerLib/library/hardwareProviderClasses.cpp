@@ -172,9 +172,16 @@ void VideoControllerProvider::createManagedElement(string infoString)
 
 void DiskDriveProvider::createManagedElement(string infoString)
 {
-    DiskDrive* dd = new DiskDrive();
+    DiskDrive* result = new DiskDrive();
+    smatch matching;
 
-    createdManagedElements.push_back(dd);
+    #ifdef _WIN32
+    
+    #else
+
+    #endif
+
+    createdManagedElements.push_back(result);
 }
 
 #pragma endregion
