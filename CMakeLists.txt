@@ -18,7 +18,7 @@ if (WIN32)
     set(CMAKE_CXX_FLAGS_RELEASE "/O2 /Oi /Ot /GL /W0 /std:c++17")
 else()
     set(CMAKE_CXX_FLAGS_DEBUG "-g3 -ggdb -Wall -pedantic -std=c++17 -Wno-unknown-pragmas")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Os -Wall -pedantic -std=c++17 -Wno-unknown-pragmas")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -pedantic -std=c++17 -Wno-unknown-pragmas")
 endif()
 
 if (CMAKE_CONFIGURATION_TYPES)
