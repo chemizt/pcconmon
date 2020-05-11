@@ -190,13 +190,13 @@ void DiskDriveProvider::createManagedElement(string infoString)
         result->setInterfaceType(matching[1]);
     }
     #else
-    regex bytesPerSectorRgx("Physical Sector size:\\s+(\\d+)");
+    regex bytesPerSectorRgx("Physical Sector size:\\s+([0-9]+)");
     regex fwRevRgx("Firmware Revision:\\s+(\\w+)");
     regex logNameRgx("logical name: (.+)");
     regex manModelRgx("Model Number:\\s+(\\w+)* (\\w+)");
     regex nameRgx("product: (.+)");
     regex serNoRgx("serial: (.+)");
-    regex sizeRgx("device size with M = 1024*1024:\\s+(\\d+)");
+    regex sizeRgx("device size with M = 1024\\*1024:\\s+([0-9]+)");
     regex versionRgx("version: (.+)");
 
     if (regex_search(infoString, matching, versionRgx)) 
@@ -335,7 +335,7 @@ void DiskDriveProvider::scanForManagedElements()
     #ifdef _WIN32
     splRgx = "(\\r\\r\\n){2,3}";
     #else
-    splRgx = "\\R\\s+\\*";
+    splRgx = "\\*\\-disk";
     #endif
 
     splResult = splitStringByRegex(scanResult, splRgx);
