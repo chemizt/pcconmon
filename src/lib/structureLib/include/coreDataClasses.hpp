@@ -6,9 +6,9 @@
 class ManagedElement
 {
     protected:
-        string description;
-        string id;
-        string name;
+        string _description;
+        string _id;
+        string _name;
     public:
         ManagedElement() { };
         string getDescription();
@@ -22,21 +22,24 @@ class ManagedElement
 class Device : public ManagedElement
 {
     protected:
-        string capabilities;
-        string manufacturer;
-        string type;
-        string version;
-        string serialNumber;
+        string _capabilities;
+        string _manufacturer;
+        string _type;
+        string _version;
+        string _serialNumber;
+        string _model;
     public:
         string getCapabilities();
         string getManufacturer();
         string getType();
         string getVersion();
         string getSerialNumber();
+        string getModel();
         virtual void setType(string newType) = 0;
         void setCapabilities(string newCapabilities);
         void setManufacturer(string newManufacturer);
         void setVersion(string newVersion);
+        void setModel(string newModel);
         void setSerialNumber(string newSerialNumber);
 };
 

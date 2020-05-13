@@ -88,7 +88,7 @@ void ProcessorProvider::createManagedElement(string infoString)
         result->setEnabledCoreCount(std::stoi(matching[1]));
     }
 
-    createdManagedElements.push_back(result);
+    _createdManagedElements.push_back(result);
 }
 
 void VideoControllerProvider::createManagedElement(string infoString)
@@ -167,7 +167,7 @@ void VideoControllerProvider::createManagedElement(string infoString)
         result->setVideoProcessor(matching[1]);
     }
 
-    createdManagedElements.push_back(result);
+    _createdManagedElements.push_back(result);
 }
 
 void DiskDriveProvider::createManagedElement(string infoString)
@@ -246,7 +246,7 @@ void DiskDriveProvider::createManagedElement(string infoString)
         
     }
 
-    createdManagedElements.push_back(result);
+    _createdManagedElements.push_back(result);
 }
 
 #pragma endregion
@@ -257,10 +257,10 @@ string ProcessorProvider::gatherBasicInfo()
     string result = "";
 
     #ifdef _WIN32
-    result += cmdExecutor->executeCommand("wmic cpu get /all /format:textvaluelist");
+    result += _cmdExecutor->executeCommand("wmic path win32_processor get /all /format:textvaluelist");
     #else
-    result += cmdExecutor->executeCommand("dmidecode -t 4");
-    result += cmdExecutor->executeCommand("lscpu");
+    result += _cmdExecutor->executeCommand("dmidecode -t 4");
+    result += _cmdExecutor->executeCommand("lscpu");
     #endif
 
     return result;
@@ -271,10 +271,10 @@ string VideoControllerProvider::gatherBasicInfo()
     string result = "";
 
     #ifdef _WIN32
-    result += cmdExecutor->executeCommand("wmic path win32_videocontroller get /all /format:textvaluelist");
+    result += _cmdExecutor->executeCommand("wmic path win32_videocontroller get /all /format:textvaluelist");
     #else
-    result += cmdExecutor->executeCommand("get-edid | parse-edid");
-    result += cmdExecutor->executeCommand("lshw -c display");
+    result += _cmdExecutor->executeCommand("get-edid | parse-edid");
+    result += _cmdExecutor->executeCommand("lshw -c display");
     #endif
 
     return result;
@@ -285,9 +285,9 @@ string DiskDriveProvider::gatherBasicInfo()
     string result = "";
 
     #ifdef _WIN32
-    result += cmdExecutor->executeCommand("wmic path win32_diskdrive get /all /format:textvaluelist");
+    result += _cmdExecutor->executeCommand("wmic path win32_diskdrive get /all /format:textvaluelist");
     #else
-    result += cmdExecutor->executeCommand("lshw -c disk");
+    result += _cmdExecutor->executeCommand("lshw -c disk");
     #endif
 
     return result;
@@ -303,7 +303,7 @@ string DiskDriveProvider::gatherAdvancedInfo(string basicInfo)
 
     if (regex_search(basicInfo, matching, regex("(\\/dev\\/\\w+)")))
     {
-        result += cmdExecutor->executeCommand("hdparm -I " + matching[1].str());
+        result += _cmdExecutor->executeCommand("hdparm -I " + matching[1].str());
     }
 
     return result;

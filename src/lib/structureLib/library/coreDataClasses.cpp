@@ -2,70 +2,87 @@
 
 string ManagedElement::getId()
 {
-    return this->id;
+    return this->_id;
 }
 
 string ManagedElement::getName()
 {
-    return this->name;
+    return this->_name;
 }
 
 string ManagedElement::getDescription()
 {
-    return this->description;
+    return this->_description;
 }
 
 void ManagedElement::setId(string newId)
 {
-    this->id = newId;
+    this->_id = newId;
 }
 
 void ManagedElement::setName(string newName)
 {
-    this->name = newName;
+    this->_name = newName;
 }
 
 string Device::getManufacturer()
 {
-    return this->manufacturer;
+    return this->_manufacturer;
 }
 
 string Device::getCapabilities()
 {
-    return this->capabilities;
+    return this->_capabilities;
 }
 
 string Device::getType()
 {
-    return this->type;
+    return this->_type;
 }
 
 string Device::getVersion()
 {
-    return this->version;
+    return this->_version;
 }
 
 string Device::getSerialNumber()
 {
-    return this->serialNumber;
+    return this->_serialNumber;
 }
 
 void Device::setManufacturer(string newManufacturer)
 {
-    this->manufacturer = newManufacturer;
+    this->_manufacturer = newManufacturer;
 }
 
 void Device::setVersion(string newVersion)
 {
-    this->version = newVersion;
+    this->_version = newVersion;
 }
 
 void Device::setCapabilities(string newCapabilities)
 {
-    this->capabilities = newCapabilities;
+    this->_capabilities = newCapabilities;
 }
 
 void Device::setSerialNumber(string newSerialNumber)
 {
-    this->serialNumber = newSerialNumber;
+    this->_serialNumber = newSerialNumber;
+}
+
+void Device::setModel(string newModel)
+{
+    if (newModel == "")
+    {
+        this->_model = "N/A";
+    }
+    else
+    {
+        this->_model = newModel;
+    }
+}
+
+string Device::getModel()
+{
+    return this->_model;
 }

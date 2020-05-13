@@ -7,16 +7,16 @@
 class Processor : public Device
 {
     private:
-        string busClock;
-        string currentClock;
-        string family;
-        string maxClock;
-        string socket;
-        string voltage;
-        uint16_t coreCount;
-        uint16_t enabledCoreCount;
-        uint16_t threadCount;
-        uint16_t width;
+        string _busClock;
+        string _currentClock;
+        string _family;
+        string _maxClock;
+        string _socket;
+        string _voltage;
+        uint16_t _coreCount;
+        uint16_t _enabledCoreCount;
+        uint16_t _threadCount;
+        uint16_t _width;
     public:
         string getBusClock();
         string getCurrentClock();
@@ -45,12 +45,12 @@ class Processor : public Device
 class VideoController : public Device
 {
     private:
-        string videoProcessor;
-        uint16_t currentHorizontalResolution;
-        uint16_t currentRefreshRate;
-        uint16_t currentVerticalResolution;
-        uint16_t maxRefreshRate;
-        uint16_t minRefreshRate;
+        string _videoProcessor;
+        uint16_t _currentHorizontalResolution;
+        uint16_t _currentRefreshRate;
+        uint16_t _currentVerticalResolution;
+        uint16_t _maxRefreshRate;
+        uint16_t _minRefreshRate;
     public:
         string getVideoProcessor();
         uint16_t getCurrentHorizontalResolution();
@@ -71,17 +71,15 @@ class VideoController : public Device
 class DiskDrive : public Device
 {
     private:
-        string firmwareRevision;
-        string interfaceType;
-        string logicalName;
-        string model;
-        uint16_t bytesPerSector;
-        uint64_t size;
+        string _firmwareRevision;
+        string _interfaceType;
+        string _logicalName;
+        uint16_t _bytesPerSector;
+        uint64_t _size;
     public:
         string getFirmwareRevision();
         string getInterfaceType();
         string getLogicalName();
-        string getModel();
         uint16_t getBytesPerSector();
         uint64_t getSize();
         void setBytesPerSector(uint16_t newBytesPerSector);
@@ -89,8 +87,27 @@ class DiskDrive : public Device
         void setFirmwareRevision(string newFirmwareRevision);
         void setInterfaceType(string newInterfaceType);
         void setLogicalName(string newLogicalName);
-        void setModel(string newModel);
         void setSize(uint64_t newSize);
+        void setType(string newType);
+};
+
+class BaseBoard : public Device
+{
+    private:
+        bool _isHosting = false;
+        bool _isReplaceable = false;
+        bool _isHotswappable = false;
+        bool _isRemovable = false;
+    public:
+        bool isHosting();
+        bool isReplaceable();
+        bool isHotswappable();
+        bool isRemovable();
+        void setHosting();
+        void setReplaceable();
+        void setHotswappable();
+        void setRemovable();
+        void setDescription(string newDescription);
         void setType(string newType);
 };
 

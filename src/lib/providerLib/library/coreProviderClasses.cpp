@@ -36,7 +36,7 @@ string CommandExecutor::executeCommand(string cmdToExec)
 
 vector<ManagedElement*> Provider::getAllManagedElements()
 {
-    return this->createdManagedElements;
+    return this->_createdManagedElements;
 }
 
 uint16_t Provider::countRegexMatches(string infoString, string searchRegex)
