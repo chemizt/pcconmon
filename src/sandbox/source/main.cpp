@@ -33,5 +33,24 @@ int main()
         << "\n\n";
     }
 
+    BaseBoardProvider* bprov = new BaseBoardProvider();
+    bprov->scanForManagedElements();
+    vector<ManagedElement*> motherboards = bprov->getAllManagedElements();
+
+    for (ManagedElement* motherboard : motherboards)
+    {
+        BaseBoard* castMB = (BaseBoard*)motherboard;
+
+        cout << "\nManufacturer: " << castMB->getManufacturer()
+        << "\nModel: " << castMB->getModel()
+        << "\nSerial Number: " << castMB->getSerialNumber()
+        << "\nVersion: " << castMB->getVersion()
+        << "\nHosting: " << (castMB->isHosting() ? "Yes" : "No")
+        << "\nHotswappable: " << (castMB->isHotswappable() ? "Yes" : "No")
+        << "\nRemovable: " << (castMB->isRemovable() ? "Yes" : "No")
+        << "\nReplaceable: " << (castMB->isReplaceable() ? "Yes" : "No")
+        << "\n\n";
+    }
+
     return 0;
 }

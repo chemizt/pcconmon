@@ -39,4 +39,15 @@ class DiskDriveProvider : public Provider
         void scanForManagedElements();
 };
 
+class BaseBoardProvider : public Provider
+{
+    private:
+        string gatherBasicInfo();
+        void createManagedElement(string infoString);
+    public:
+        using Provider::Provider;
+        BaseBoardProvider() { };
+        void scanForManagedElements();
+};
+
 #endif

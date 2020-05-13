@@ -249,6 +249,74 @@ void DiskDriveProvider::createManagedElement(string infoString)
     _createdManagedElements.push_back(result);
 }
 
+void BaseBoardProvider::createManagedElement(string infoString)
+{
+    BaseBoard* result = new BaseBoard();
+    smatch matching;
+
+    #ifdef _WIN32
+    regex modelRgx("Product=(.+)");
+    regex manufacturerRgx("Manufacturer=(.+)");
+    regex versionRgx("Version=(.+)");
+    regex serNoRgx("SerialNumber=(.+)");
+    regex isHostingRgx("HostingBoard=TRUE");
+    regex isHotswappableRgx("HotSwappable=TRUE");
+    regex isRemovableRgx("Removable=TRUE");
+    regex isReplaceableRgx("Replaceable=TRUE");
+    #else
+    regex modelRgx("Product Name: (.+)");
+    regex manufacturerRgx("Manufacturer: (.+)");
+    regex versionRgx("Version: (.+)");
+    regex serNoRgx("Serial Number: (.+)");
+    regex isHostingRgx("Board is a hosting board");
+    regex isHotswappableRgx("Board is hotswappable");
+    regex isRemovableRgx("Board is removable");
+    regex isReplaceableRgx("Board is replaceable");
+    #endif
+    
+    if (regex_search(infoString, matching, modelRgx)) 
+    {
+        result->setModel(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, manufacturerRgx)) 
+    {
+        result->setManufacturer(matching[1]);
+    }
+    
+    if (regex_search(infoString, matching, versionRgx)) 
+    {
+        result->setVersion(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, serNoRgx)) 
+    {
+        result->setSerialNumber(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, isHostingRgx)) 
+    {
+        result->setHosting();
+    }
+
+    if (regex_search(infoString, matching, isHotswappableRgx)) 
+    {
+        result->setHotswappable();
+    }
+    
+    if (regex_search(infoString, matching, isRemovableRgx)) 
+    {
+        result->setRemovable();
+    }
+
+    if (regex_search(infoString, matching, isReplaceableRgx)) 
+    {
+        result->setReplaceable();
+    }
+
+    _createdManagedElements.push_back(result);
+}
+
 #pragma endregion
 #pragma region gatherBasicInfo
 
@@ -293,6 +361,19 @@ string DiskDriveProvider::gatherBasicInfo()
     return result;
 }
 
+string BaseBoardProvider::gatherBasicInfo()
+{
+    string result = "";
+
+    #ifdef _WIN32
+    result += _cmdExecutor->executeCommand("wmic path win32_baseboard get /all /format:textvaluelist");
+    #else
+    result += _cmdExecutor->executeCommand("dmidecode -t 2");
+    #endif
+
+    return result;
+}
+
 #pragma endregion
 #pragma region gatherAdvancedInfo
 
@@ -320,6 +401,13 @@ void ProcessorProvider::scanForManagedElements() //TODO: work out a way to parse
 }
 
 void VideoControllerProvider::scanForManagedElements() //TODO: same as for ProcessorProvider
+{
+    string scanResult = this->gatherBasicInfo();
+        
+    this->createManagedElement(scanResult);
+}
+
+void BaseBoardProvider::scanForManagedElements() //TODO: same as for ProcessorProvider
 {
     string scanResult = this->gatherBasicInfo();
         
