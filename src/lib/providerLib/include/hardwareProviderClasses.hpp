@@ -5,47 +5,47 @@
 #include "coreProviderClasses.hpp"
 #include "hardwareDataClasses.hpp"
 
-class ProcessorProvider : public Provider
+class ProcessorProvider : public InformationProvider
 {
     private:
         string gatherBasicInfo();
         void createManagedElement(string infoString);
     public:
-        using Provider::Provider;
+        using InformationProvider::InformationProvider;
         ProcessorProvider() { };
         void scanForManagedElements();
 };
 
-class VideoControllerProvider : public Provider
+class VideoControllerProvider : public InformationProvider
 {
     private:
         string gatherBasicInfo();
         void createManagedElement(string infoString);
     public:
-        using Provider::Provider;
+        using InformationProvider::InformationProvider;
         VideoControllerProvider() { };
         void scanForManagedElements();
 };
 
-class DiskDriveProvider : public Provider
+class DiskDriveProvider : public InformationProvider
 {
     private:
         string gatherBasicInfo();
         string gatherAdvancedInfo(string elementName);
         void createManagedElement(string infoString);
     public:
-        using Provider::Provider;
+        using InformationProvider::InformationProvider;
         DiskDriveProvider() { };
         void scanForManagedElements();
 };
 
-class BaseBoardProvider : public Provider
+class BaseBoardProvider : public InformationProvider
 {
     private:
         string gatherBasicInfo();
         void createManagedElement(string infoString);
     public:
-        using Provider::Provider;
+        using InformationProvider::InformationProvider;
         BaseBoardProvider() { };
         void scanForManagedElements();
 };

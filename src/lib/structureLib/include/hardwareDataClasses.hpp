@@ -4,33 +4,51 @@
 #include "coreDataClasses.hpp"
 #include "commonInclude.hpp"
 
-class Processor : public Device
+class IntegratedCircuit
+{
+    protected:
+        string _currentClock;
+        string _voltage;
+        uint16_t _width;
+    public:
+        string getCurrentClock();
+        string getVoltage();
+        uint16_t getWidth();
+        void setCurrentClock(string newCurrentClock);
+        void setVoltage(string newVoltage);
+        void setWidth(uint16_t newWidth);
+};
+
+class StorageUnit
+{
+    protected:
+        uint64_t _size;
+    public:
+        uint64_t getSize();
+        void setSize(uint64_t newSize);
+};
+
+class Processor : public Device, public IntegratedCircuit
 {
     private:
         string _busClock;
-        string _currentClock;
         string _family;
         string _maxClock;
         string _socket;
-        string _voltage;
         uint16_t _coreCount;
         uint16_t _enabledCoreCount;
         uint16_t _threadCount;
-        uint16_t _width;
     public:
+        Processor() { this->setDescription(""); this->setType(""); };
         string getBusClock();
-        string getCurrentClock();
         string getFamily();
         string getMaxClock();
         string getSocket();
-        string getVoltage();
         uint16_t getCoreCount();
         uint16_t getEnabledCoreCount();
         uint16_t getThreadCount();
-        uint16_t getWidth();
         void setBusClock(string newBusClock);
         void setCoreCount(uint16_t newCoreCount);
-        void setCurrentClock(string newCurrentClock);
         void setDescription(string newDescription);
         void setEnabledCoreCount(uint16_t newEnabledCoreCount);
         void setFamily(string newFamily);
@@ -38,8 +56,6 @@ class Processor : public Device
         void setSocket(string newSocket);
         void setThreadCount(uint16_t newThreadCount);
         void setType(string newType);
-        void setVoltage(string newVoltage);
-        void setWidth(uint16_t newWidth);
 };
 
 class VideoController : public Device
@@ -52,6 +68,7 @@ class VideoController : public Device
         uint16_t _maxRefreshRate;
         uint16_t _minRefreshRate;
     public:
+        VideoController() { this->setDescription(""); this->setType(""); };
         string getVideoProcessor();
         uint16_t getCurrentHorizontalResolution();
         uint16_t getCurrentRefreshRate();
@@ -68,26 +85,24 @@ class VideoController : public Device
         void setVideoProcessor(string newVideoProcessor);
 };
 
-class DiskDrive : public Device
+class DiskDrive : public Device, public StorageUnit
 {
     private:
         string _firmwareRevision;
         string _interfaceType;
         string _logicalName;
         uint16_t _bytesPerSector;
-        uint64_t _size;
     public:
+        DiskDrive() { this->setDescription(""); this->setType(""); };
         string getFirmwareRevision();
         string getInterfaceType();
         string getLogicalName();
         uint16_t getBytesPerSector();
-        uint64_t getSize();
         void setBytesPerSector(uint16_t newBytesPerSector);
         void setDescription(string newDescription);
         void setFirmwareRevision(string newFirmwareRevision);
         void setInterfaceType(string newInterfaceType);
         void setLogicalName(string newLogicalName);
-        void setSize(uint64_t newSize);
         void setType(string newType);
 };
 
@@ -95,19 +110,38 @@ class BaseBoard : public Device
 {
     private:
         bool _isHosting = false;
-        bool _isReplaceable = false;
         bool _isHotswappable = false;
         bool _isRemovable = false;
+        bool _isReplaceable = false;
     public:
+        BaseBoard() { this->setDescription(""); this->setType(""); };
         bool isHosting();
-        bool isReplaceable();
         bool isHotswappable();
         bool isRemovable();
+        bool isReplaceable();
+        void setDescription(string newDescription);
         void setHosting();
-        void setReplaceable();
         void setHotswappable();
         void setRemovable();
+        void setReplaceable();
+        void setType(string newType);
+};
+
+class SystemMemory : public Device, public IntegratedCircuit, public StorageUnit
+{
+    private:
+        string _channel;
+        string _dimmName;
+        string _formFactor;
+    public:
+        SystemMemory() { this->setDescription(""); this->setType(""); };
+        string getChannel();
+        string getDimmName();
+        string getFormFactor();
+        void setChannel(string newChannel);
         void setDescription(string newDescription);
+        void setDimmName(string newDimmName);
+        void setFormFactor(string newFormFactor);
         void setType(string newType);
 };
 

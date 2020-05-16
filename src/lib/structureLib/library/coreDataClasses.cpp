@@ -52,22 +52,50 @@ string Device::getSerialNumber()
 
 void Device::setManufacturer(string newManufacturer)
 {
-    this->_manufacturer = newManufacturer;
+    if (newManufacturer == "")
+    {
+        this->_manufacturer = "N/A";
+    }
+    else
+    {
+        this->_manufacturer = newManufacturer;
+    }
 }
 
 void Device::setVersion(string newVersion)
 {
-    this->_version = newVersion;
+    if (newVersion == "")
+    {
+        this->_version = "N/A";
+    }
+    else
+    {
+        this->_version = newVersion;
+    }
 }
 
 void Device::setCapabilities(string newCapabilities)
 {
-    this->_capabilities = newCapabilities;
+    if (newCapabilities == "")
+    {
+        this->_capabilities = "N/A";
+    }
+    else
+    {
+        this->_capabilities = newCapabilities;
+    }
 }
 
 void Device::setSerialNumber(string newSerialNumber)
 {
-    this->_serialNumber = newSerialNumber;
+    if (newSerialNumber == "")
+    {
+        this->_serialNumber = "N/A";
+    }
+    else
+    {
+        this->_serialNumber = newSerialNumber;
+    }
 }
 
 void Device::setModel(string newModel)
@@ -85,4 +113,21 @@ void Device::setModel(string newModel)
 string Device::getModel()
 {
     return this->_model;
+}
+
+void Device::setPartNumber(string newPartNumber)
+{
+    if (newPartNumber == "")
+    {
+        this->_partNumber = "N/A";
+    }
+    else
+    {
+        this->_partNumber = newPartNumber;
+    }
+}
+
+string Device::getPartNumber()
+{
+    return this->_partNumber;
 }

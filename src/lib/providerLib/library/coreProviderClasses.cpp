@@ -34,12 +34,12 @@ string CommandExecutor::executeCommand(string cmdToExec)
     return result;
 }
 
-vector<ManagedElement*> Provider::getAllManagedElements()
+vector<ManagedElement*> InformationProvider::getAllManagedElements()
 {
     return this->_createdManagedElements;
 }
 
-uint16_t Provider::countRegexMatches(string infoString, string searchRegex)
+uint16_t InformationProvider::countRegexMatches(string infoString, string searchRegex)
 {
     regex rgx(searchRegex);
 
@@ -49,7 +49,7 @@ uint16_t Provider::countRegexMatches(string infoString, string searchRegex)
     return std::distance(matchStart, matchEnd);
 }
 
-vector<string> Provider::splitStringByRegex(string infoString, string splitRegex)
+vector<string> InformationProvider::splitStringByRegex(string infoString, string splitRegex)
 {
     regex rgx(splitRegex);
     smatch matching;

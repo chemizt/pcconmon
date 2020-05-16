@@ -10,7 +10,7 @@ string Processor::getFamily()
     return this->_family;
 }
 
-string Processor::getCurrentClock()
+string IntegratedCircuit::getCurrentClock()
 {
     return this->_currentClock;
 }
@@ -25,12 +25,12 @@ string Processor::getBusClock()
     return this->_busClock;
 }
 
-string Processor::getVoltage()
+string IntegratedCircuit::getVoltage()
 {
     return this->_voltage;
 }
 
-uint16_t Processor::getWidth()
+uint16_t IntegratedCircuit::getWidth()
 {
     return this->_width;
 }
@@ -99,7 +99,7 @@ void Processor::setFamily(string newFamily)
     }
 }
 
-void Processor::setCurrentClock(string newCurrentClock)
+void IntegratedCircuit::setCurrentClock(string newCurrentClock)
 {
     if (newCurrentClock == "")
     {
@@ -135,7 +135,7 @@ void Processor::setBusClock(string newBusClock)
     }
 }
 
-void Processor::setVoltage(string newVoltage)
+void IntegratedCircuit::setVoltage(string newVoltage)
 {
     if (newVoltage == "")
     {
@@ -147,7 +147,7 @@ void Processor::setVoltage(string newVoltage)
     }
 }
 
-void Processor::setWidth(uint16_t newWidth)
+void IntegratedCircuit::setWidth(uint16_t newWidth)
 {
     this->_width = newWidth;
 }
@@ -278,7 +278,7 @@ uint16_t DiskDrive::getBytesPerSector()
     return this->_bytesPerSector;
 }
 
-uint64_t DiskDrive::getSize()
+uint64_t StorageUnit::getSize()
 {
     return this->_size;
 }
@@ -324,7 +324,7 @@ void DiskDrive::setBytesPerSector(uint16_t newBytesPerSector)
     this->_bytesPerSector = newBytesPerSector;
 }
 
-void DiskDrive::setSize(uint64_t newSize)
+void StorageUnit::setSize(uint64_t newSize)
 {
     this->_size = newSize;
 }
@@ -410,6 +410,81 @@ void BaseBoard::setType(string newType)
     if (newType == "")
     {
         this->_type = "Motherboard";
+    }
+    else
+    {
+        this->_type = newType;
+    }
+}
+
+string SystemMemory::getFormFactor()
+{
+    return this->_formFactor;
+}
+
+string SystemMemory::getChannel()
+{
+    return this->_channel;
+}
+
+string SystemMemory::getDimmName()
+{
+    return this->_dimmName;
+}
+
+void SystemMemory::setFormFactor(string newFormFactor)
+{
+    if (newFormFactor == "")
+    {
+        this->_formFactor = "N/A";
+    }
+    else
+    {
+        this->_formFactor = newFormFactor;
+    }
+}
+
+void SystemMemory::setChannel(string newChannel)
+{
+    if (newChannel == "")
+    {
+        this->_channel = "N/A";
+    }
+    else
+    {
+        this->_channel = newChannel;
+    }
+}
+
+void SystemMemory::setDimmName(string newDimmName)
+{
+    if (newDimmName == "")
+    {
+        this->_dimmName = "N/A";
+    }
+    else
+    {
+        this->_dimmName = newDimmName;
+    }
+}
+
+void SystemMemory::setDescription(string newDescription)
+{
+    if (newDescription == "")
+    {
+        this->_description = "System Memory";
+    }
+    else
+    {
+        this->_description = newDescription;
+    }
+}
+
+void SystemMemory::setType(string newType)
+{
+    if (newType == "")
+    {
+        this->_type = "DDR SDRAM";
     }
     else
     {
