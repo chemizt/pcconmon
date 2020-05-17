@@ -50,4 +50,15 @@ class BaseBoardProvider : public InformationProvider
         void scanForManagedElements();
 };
 
+class SystemMemoryProvider : public InformationProvider
+{
+    private:
+        string gatherBasicInfo();
+        void createManagedElement(string infoString);
+    public:
+        using InformationProvider::InformationProvider;
+        SystemMemoryProvider() { };
+        void scanForManagedElements();
+};
+
 #endif

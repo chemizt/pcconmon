@@ -243,7 +243,6 @@ void DiskDriveProvider::createManagedElement(string infoString)
         #else
         result->setSize(std::stoull(matching[1]) * 1024 * 1024);
         #endif
-        
     }
 
     _createdManagedElements.push_back(result);
@@ -317,6 +316,103 @@ void BaseBoardProvider::createManagedElement(string infoString)
     _createdManagedElements.push_back(result);
 }
 
+void SystemMemoryProvider::createManagedElement(string infoString)
+{
+    SystemMemory* result = new SystemMemory();
+    smatch matching;
+
+    #ifdef _WIN32
+    regex capacityRgx("Capacity=(.+)");
+    regex channelRgx("BankLabel=\\w+ (.+)");
+    regex clockRgx("ConfiguredClockSpeed=(.+)");
+    regex dimmRgx("DeviceLocator=(.+)");
+    regex formFactorRgx("FormFactor=(.+)");
+    regex manufacturerRgx("Manufacturer=(.+)");
+    regex partNoRgx("PartNumber=(.+)");
+    regex serNoRgx("SerialNumber=(.+)");
+    regex typeRgx("TypeDetail=(.+)");
+    regex voltageRgx("ConfiguredVoltage=(.+)");
+    regex widthRgx("TotalWidth=(.+)");
+    #else
+    regex capacityRgx("Size: ([0-9]+)");
+    regex channelRgx("Locator: (\\w+)-");
+    regex clockRgx("Configured Memory Speed: ([0-9]+)");
+    regex dimmRgx("Locator: \\w+-(\\w+)");
+    regex formFactorRgx("Form Factor: (.+)");
+    regex manufacturerRgx("Manufacturer: (.+)");
+    regex partNoRgx("Part Number: (.+)");
+    regex serNoRgx("Serial Number: (.+)");
+    regex typeRgx("Type: (.+)");
+    regex voltageRgx("Configured Voltage: ([0-9.]+)");
+    regex widthRgx("Total Width: ([0-9]+)");
+    #endif
+    
+    if (regex_search(infoString, matching, capacityRgx)) 
+    {
+        #ifdef _WIN32
+        result->setSize(std::stoull(matching[1]));
+        #else
+        result->setSize(std::stoull(matching[1]) * 1024 * 1024);
+        #endif
+    }
+
+    if (regex_search(infoString, matching, channelRgx)) 
+    {
+        result->setChannel(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, clockRgx)) 
+    {
+        result->setCurrentClock(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, dimmRgx)) 
+    {
+        result->setDimmName(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, formFactorRgx)) 
+    {
+        result->setFormFactor(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, manufacturerRgx)) 
+    {
+        result->setManufacturer(matching[1]);
+    }
+    
+    if (regex_search(infoString, matching, partNoRgx)) 
+    {
+        result->setPartNumber(matching[1]);
+    }
+    
+    if (regex_search(infoString, matching, serNoRgx)) 
+    {
+        result->setSerialNumber(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, typeRgx)) 
+    {
+        result->setType(matching[1]);
+    }
+
+    if (regex_search(infoString, matching, voltageRgx)) 
+    {
+        #ifdef _WIN32
+        result->setVoltage(std::to_string(std::stof(matching[1]) / 1000).substr(0, 4));
+        #else
+        result->setVoltage(matching[1]);
+        #endif
+    }
+
+    if (regex_search(infoString, matching, widthRgx)) 
+    {
+        result->setWidth(std::stoi(matching[1]));
+    }
+
+    _createdManagedElements.push_back(result);
+}
+
 #pragma endregion
 #pragma region gatherBasicInfo
 
@@ -369,6 +465,19 @@ string BaseBoardProvider::gatherBasicInfo()
     result += _cmdExecutor->executeCommand("wmic path win32_baseboard get /all /format:textvaluelist");
     #else
     result += _cmdExecutor->executeCommand("dmidecode -t 2");
+    #endif
+
+    return result;
+}
+
+string SystemMemoryProvider::gatherBasicInfo()
+{
+    string result = "";
+
+    #ifdef _WIN32
+    result += _cmdExecutor->executeCommand("wmic path win32_physicalmemory get /all /format:textvaluelist");
+    #else
+    result += _cmdExecutor->executeCommand("dmidecode -t 17");
     #endif
 
     return result;
@@ -435,6 +544,30 @@ void DiskDriveProvider::scanForManagedElements()
         #else
         this->createManagedElement(subRes + this->gatherAdvancedInfo(subRes));
         #endif
+    }
+}
+
+void SystemMemoryProvider::scanForManagedElements()
+{
+    string scanResult = this->gatherBasicInfo();
+    string splRgx;
+    smatch matching;
+    vector<string> splResult;
+
+    #ifdef _WIN32
+    splRgx = "(\\r\\r\\n){2,3}";
+    #else
+    splRgx = "Memory Device";
+    #endif
+
+    splResult = splitStringByRegex(scanResult, splRgx);
+
+    for (string subRes : splResult)
+    {
+        if (regex_search(subRes, matching, regex("Voltage"))) 
+        {
+            this->createManagedElement(subRes);
+        }
     }
 }
 

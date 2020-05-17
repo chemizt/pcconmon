@@ -52,5 +52,27 @@ int main()
         << "\n\n";
     }
 
+    SystemMemoryProvider* mprov = new SystemMemoryProvider();
+    mprov->scanForManagedElements();
+    vector<ManagedElement*> ram = mprov->getAllManagedElements();
+
+    for (ManagedElement* stick : ram)
+    {
+        SystemMemory* castRAM = (SystemMemory*)stick;
+
+        cout << "\nManufacturer: " << castRAM->getManufacturer()
+        << "\nSerial Number: " << castRAM->getSerialNumber()
+        << "\nPart Number: " << castRAM->getPartNumber()
+        << "\nForm Factor: " << castRAM->getFormFactor()
+        << "\nType: " << castRAM->getType()
+        << "\nChannel: " << castRAM->getChannel()
+        << "\nDIMM Name: " << castRAM->getDimmName()
+        << "\nCapacity: " << uint64_t(castRAM->getSize() / 1024 / 1024)
+        << "MB\nClock: " << castRAM->getCurrentClock()
+        << "MHz\nVoltage: " << castRAM->getVoltage()
+        << "V\nWidth: " << castRAM->getWidth()
+        << "\n\n";
+    }
+
     return 0;
 }
