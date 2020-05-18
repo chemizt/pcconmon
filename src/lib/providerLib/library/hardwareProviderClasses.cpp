@@ -564,7 +564,7 @@ void SystemMemoryProvider::scanForManagedElements()
 
     for (string subRes : splResult)
     {
-        if (regex_search(subRes, matching, regex("Voltage"))) 
+        if (regex_search(subRes, matching, regex("Memory"))) 
         {
             this->createManagedElement(subRes);
         }
