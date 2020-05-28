@@ -124,12 +124,12 @@ void VideoControllerProvider::createManagedElement(string infoString)
     {
         result->setCurrentVerticalResolution(std::stoi(matching[1]));
     }
-    #else // TODO: work out a way to get video processor info and current refresh rate (LINUX)
-    regex currentRefRateRgx("CurrentRefreshRate=([0-9]+)"); // TODO rework this
+    #else
+    regex currentRefRateRgx("CurrentRefreshRate=([0-9]+)");
     regex refRateRgx("VertRefresh ([0-9]+)-([0-9]+)");
     regex resRgx("DisplaySize ([0-9]+) ([0-9]+)");
     regex nameRgx("product: (.+)");
-    regex videoProcessorRgx("VideoProcessor=(.+)"); // TODO rework that
+    regex videoProcessorRgx("product: (.+)");
 
     if (regex_search(infoString, matching, refRateRgx)) 
     {
