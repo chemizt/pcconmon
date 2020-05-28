@@ -3,3 +3,4 @@ read-edid
 lscpu
 dmidecode
 lshw
+hdparm
