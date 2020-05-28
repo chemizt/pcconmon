@@ -1,8 +1,8 @@
 #include "winCmdExec.hpp"
 
-int SystemCapture(string CmdLine,  string& ListStdOut, string& ListStdErr, uint32_t& RetCode, string CmdRunDir) // copy-pasted from https://stackoverflow.com/a/46348112
+int SystemCapture(string CmdLine, string& ListStdOut, string& ListStdErr, int RetCode, string CmdRunDir) // copy-pasted from https://stackoverflow.com/a/46348112
 {
-    int                  Success;
+    int                  opSuccess;
     SECURITY_ATTRIBUTES  security_attributes;
     HANDLE               stdout_rd = INVALID_HANDLE_VALUE;
     HANDLE               stdout_wr = INVALID_HANDLE_VALUE;
@@ -44,11 +44,11 @@ int SystemCapture(string CmdLine,  string& ListStdOut, string& ListStdErr, uint3
     strncpy(CmdLineStr, CmdLine.c_str(), MAX_PATH);
     CmdLineStr[MAX_PATH - 1] = 0;
 
-    Success = CreateProcess(nullptr, CmdLineStr, nullptr, nullptr, TRUE, 0, nullptr, CmdRunDir.c_str(), &startup_info, &process_info);
+    opSuccess = CreateProcess(nullptr, CmdLineStr, nullptr, nullptr, TRUE, 0, nullptr, CmdRunDir.c_str(), &startup_info, &process_info);
     CloseHandle(stdout_wr);
     CloseHandle(stderr_wr);
 
-    if(!Success) 
+    if(!opSuccess) 
     {
         CloseHandle(process_info.hProcess);
         CloseHandle(process_info.hThread);

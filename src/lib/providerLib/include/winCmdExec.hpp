@@ -9,4 +9,4 @@
 
 using std::thread;
 
-int SystemCapture(string CmdLine,  string& ListStdOut, string& ListStdErr, uint32_t& RetCode, string CmdRunDir = ".");
+int SystemCapture(string CmdLine, string& ListStdOut, string& ListStdErr, int RetCode, string CmdRunDir = ".");
