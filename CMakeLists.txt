@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(pcConMon)
 
+cmake_policy(SET CMP0074 NEW)
 cmake_policy(SET CMP0079 NEW)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/bin/debug)
