@@ -26,10 +26,16 @@ if (CMAKE_CONFIGURATION_TYPES)
 endif()
 
 set(SOURCE_MAIN src/sandbox/source/main.cpp)
+set(SOURCE_AGENT src/agent/source/agent.cpp)
 
 add_executable(
     testMain
     ${SOURCE_MAIN}
+)
+
+add_executable(
+    pcAgent
+    ${SOURCE_AGENT}
 )
 
 target_include_directories(
