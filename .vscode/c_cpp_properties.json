@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:/vcpkg/installed/x64-windows/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -11,7 +12,7 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.18362.0",
-            "compilerPath": "${PATH}/g++.exe",
+            "compilerPath": "C:\\Program Files\\Git\\mingw64\\bin\\g++.exe",
             "cStandard": "c11",
             "cppStandard": "c++20",
             "intelliSenseMode": "gcc-x64"
