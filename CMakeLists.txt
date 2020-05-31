@@ -38,7 +38,7 @@ if (CMAKE_CONFIGURATION_TYPES)
 endif()
 
 set(SOURCE_MAIN src/sandbox/source/main.cpp)
-set(SOURCE_AGENT src/agent/source/agent.cpp)
+set(SOURCE_CHAT src/sandbox/source/chat.cpp)
 
 find_package(Boost 1.71 REQUIRED)
 
@@ -48,8 +48,8 @@ add_executable(
 )
 
 add_executable(
-    pcAgent
-    ${SOURCE_AGENT}
+    tcpChat
+    ${SOURCE_CHAT}
 )
 
 target_include_directories(
@@ -59,7 +59,7 @@ target_include_directories(
 )
 
 target_include_directories(
-    pcAgent
+    tcpChat
     PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
@@ -74,7 +74,7 @@ target_include_directories(
 
 target_link_libraries(providerLib structureLib)
 target_link_libraries(testMain structureLib providerLib)
-target_link_libraries(pcAgent ${Boost_LIBRARIES} ${ADDITIONAL_LIBRARIES})
+target_link_libraries(tcpChat ${Boost_LIBRARIES} ${ADDITIONAL_LIBRARIES})
 
 add_custom_target(
     debug
