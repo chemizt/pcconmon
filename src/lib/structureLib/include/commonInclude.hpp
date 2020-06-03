@@ -2,7 +2,9 @@
 #define IG_COMMON_INCLUDE_SL
 
 #include <string>
+#include <vector>
 
 using std::string;
+using std::vector;
 
 #endif

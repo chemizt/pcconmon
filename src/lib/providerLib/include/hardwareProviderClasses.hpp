@@ -61,4 +61,17 @@ class SystemMemoryProvider : public InformationProvider
         void scanForManagedElements();
 };
 
+class ComputerSystemProvider
+{
+    private:
+        BaseBoardProvider _baseBoardProv;
+        DiskDriveProvider _diskDriveProv;
+        ProcessorProvider _processorProv;
+        SystemMemoryProvider _sysMemProv;
+        VideoControllerProvider _vidConProv;
+    public:
+        ComputerSystemProvider() { };
+        ManagedElement* createManagedElement();
+};
+
 #endif

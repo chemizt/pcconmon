@@ -145,4 +145,28 @@ class SystemMemory : public Device, public IntegratedCircuit, public StorageUnit
         void setType(string newType);
 };
 
+class ComputerSystem : public Device
+{
+    private:
+        vector<ManagedElement*> _baseBoards;
+        vector<ManagedElement*> _diskDrives;
+        vector<ManagedElement*> _processors;
+        vector<ManagedElement*> _systemMemory;
+        vector<ManagedElement*> _videoControllers;
+    public:
+        ComputerSystem() { this->setDescription(""); this->setType(""); }
+        vector<ManagedElement*> getBaseBoards();
+        vector<ManagedElement*> getDiskDrives();
+        vector<ManagedElement*> getProcessors();
+        vector<ManagedElement*> getSystemMemory();
+        vector<ManagedElement*> getVideoControllers();
+        void setBaseBoards(vector<ManagedElement*> newBaseBoardsList);
+        void setDescription(string newDescription);
+        void setDiskDrives(vector<ManagedElement*> newDiskDrivesList);
+        void setProcessors(vector<ManagedElement*> newProcessorsList);
+        void setSystemMemory(vector<ManagedElement*> newSystemMemoryList);
+        void setType(string newType);
+        void setVideoControllers(vector<ManagedElement*> newVideoControllersList);
+};
+
 #endif

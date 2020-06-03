@@ -10,10 +10,14 @@ using std::endl;
 
 int main()
 {
-    ProcessorProvider* pprov = new ProcessorProvider();
-    pprov->scanForManagedElements();
-    vector<ManagedElement*> processors = pprov->getAllManagedElements();
-    
+    ComputerSystemProvider* csprov = new ComputerSystemProvider();
+    ComputerSystem* cs = (ComputerSystem*)csprov->createManagedElement();
+    vector<ManagedElement*> processors = cs->getProcessors();
+    vector<ManagedElement*> gpus = cs->getVideoControllers();
+    vector<ManagedElement*> drives = cs->getDiskDrives();
+    vector<ManagedElement*> motherboards = cs->getBaseBoards();
+    vector<ManagedElement*> ram = cs->getSystemMemory();
+
     cout << "Central Processing Units:\n\n";
 
     for(ManagedElement* cpu : processors)
@@ -31,10 +35,6 @@ int main()
         << castCpu->getCoreCount() << "\n\t\tThread Count: "
         << castCpu->getThreadCount() << "\n\n";
     }
-
-    VideoControllerProvider* gprov = new VideoControllerProvider();
-    gprov->scanForManagedElements();
-    vector<ManagedElement*> gpus = gprov->getAllManagedElements();
 
     cout << "Display Controllers:\n\n";
 
@@ -54,10 +54,6 @@ int main()
     }
     
     cout << "Physical Drives:\n\n";
-
-    DiskDriveProvider* dprov = new DiskDriveProvider();
-    dprov->scanForManagedElements();
-    vector<ManagedElement*> drives = dprov->getAllManagedElements();
 
     for (ManagedElement* drive : drives)
     {
@@ -80,10 +76,6 @@ int main()
 
     cout << "Motherboards:\n\n";
 
-    BaseBoardProvider* bprov = new BaseBoardProvider();
-    bprov->scanForManagedElements();
-    vector<ManagedElement*> motherboards = bprov->getAllManagedElements();
-
     for (ManagedElement* motherboard : motherboards)
     {
         BaseBoard* castMB = (BaseBoard*)motherboard;
@@ -100,10 +92,6 @@ int main()
     }
 
     cout << "RAM Devices:\n\n";
-
-    SystemMemoryProvider* mprov = new SystemMemoryProvider();
-    mprov->scanForManagedElements();
-    vector<ManagedElement*> ram = mprov->getAllManagedElements();
 
     for (ManagedElement* stick : ram)
     {

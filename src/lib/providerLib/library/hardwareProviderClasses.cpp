@@ -413,6 +413,25 @@ void SystemMemoryProvider::createManagedElement(string infoString)
     _createdManagedElements.push_back(result);
 }
 
+ManagedElement* ComputerSystemProvider::createManagedElement()
+{
+    ComputerSystem* result = new ComputerSystem();
+
+    _baseBoardProv.scanForManagedElements();
+    _diskDriveProv.scanForManagedElements();
+    _processorProv.scanForManagedElements();
+    _sysMemProv.scanForManagedElements();
+    _vidConProv.scanForManagedElements(); 
+
+    result->setBaseBoards(_baseBoardProv.getAllManagedElements());
+    result->setDiskDrives(_diskDriveProv.getAllManagedElements());
+    result->setProcessors(_processorProv.getAllManagedElements());
+    result->setSystemMemory(_sysMemProv.getAllManagedElements());
+    result->setVideoControllers(_vidConProv.getAllManagedElements());
+
+    return result;
+}
+
 #pragma endregion
 #pragma region gatherBasicInfo
 

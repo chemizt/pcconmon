@@ -13,7 +13,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/out/lib/release)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/out/lib/release)
 
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
-set(Boost_NO_BOOST_CMAKE ON)
+set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 if (UNIX)
     set(CMAKE_CXX_FLAGS_DEBUG "-g3 -ggdb -Wall -pedantic -std=c++17 -Wno-unknown-pragmas")
@@ -65,6 +65,7 @@ target_include_directories(
 
 add_subdirectory(src/lib/structureLib)
 add_subdirectory(src/lib/providerLib)
+add_subdirectory(external/json)
 
 target_include_directories(
     providerLib
@@ -72,6 +73,7 @@ target_include_directories(
     PUBLIC external/pstreams
 )
 
+target_link_libraries(structureLib PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(providerLib structureLib)
 target_link_libraries(testMain structureLib providerLib)
 target_link_libraries(tcpChat ${Boost_LIBRARIES} ${ADDITIONAL_LIBRARIES})

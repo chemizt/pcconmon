@@ -491,3 +491,77 @@ void SystemMemory::setType(string newType)
         this->_type = newType;
     }
 }
+
+vector<ManagedElement*> ComputerSystem::getBaseBoards()
+{
+    return this->_baseBoards;
+}
+
+vector<ManagedElement*> ComputerSystem::getDiskDrives()
+{
+    return this->_diskDrives;
+}
+
+vector<ManagedElement*> ComputerSystem::getProcessors()
+{
+    return this->_processors;
+}
+
+vector<ManagedElement*> ComputerSystem::getSystemMemory()
+{
+    return this->_systemMemory;
+}
+
+vector<ManagedElement*> ComputerSystem::getVideoControllers()
+{
+    return this->_videoControllers;    
+}
+
+void ComputerSystem::setBaseBoards(vector<ManagedElement*> newBaseBoardsList)
+{
+    this->_baseBoards = newBaseBoardsList;
+}
+
+void ComputerSystem::setDescription(string newDescription)
+{
+    if (newDescription == "")
+    {
+        this->_description = "Computer System";
+    }
+    else
+    {
+        this->_description = newDescription;
+    }
+}
+
+void ComputerSystem::setDiskDrives(vector<ManagedElement*> newDiskDrivesList)
+{
+    this->_diskDrives = newDiskDrivesList;
+}
+
+void ComputerSystem::setProcessors(vector<ManagedElement*> newProcessorsList)
+{
+    this->_processors = newProcessorsList;
+}
+
+void ComputerSystem::setSystemMemory(vector<ManagedElement*> newSystemMemoryList)
+{
+    this->_systemMemory = newSystemMemoryList;
+}
+
+void ComputerSystem::setType(string newType)
+{
+    if (newType == "")
+    {
+        this->_type = "PC";
+    }
+    else
+    {
+        this->_type = newType;
+    }
+}
+
+void ComputerSystem::setVideoControllers(vector<ManagedElement*> newVideoControllersList)
+{
+    this->_videoControllers = newVideoControllersList;
+}
