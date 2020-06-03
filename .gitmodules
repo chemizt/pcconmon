@@ -1,3 +1,6 @@
 [submodule "external/pstreams"]
 	path = external/pstreams
 	url = https://github.com/jwakely/pstreams
+[submodule "external/json"]
+	path = external/json
+	url = https://github.com/nlohmann/json
