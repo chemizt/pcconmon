@@ -43,7 +43,7 @@ jobs:
         key: ${{ runner.os }}-submods    
     - name: Checkout submodules if none are cached
       if: steps.cache-submods.output.cache-hit != 'true'
-      uses: textbook/git-checkout-submodule-action@2.1.1
+      run: git submodule update --init --recursive
     - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1
     - name: Generate build system
