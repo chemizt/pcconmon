@@ -14,13 +14,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Checkout submodules
       uses: textbook/git-checkout-submodule-action@2.1.1
-    - name: Set BOOST_ROOT
-      uses: allenevans/set-env@v1.1.0
-      with: 
-        overwrite: true
-        BOOST_ROOT: ${BOOST_ROOT_1_72_0}
     - name: Generate build system
-      run: mkdir build && cd build && cmake ..
+      run: mkdir build && cd build && cmake -DBOOST_LIBRARYDIR=${BOOST_ROOT_1_72_0} ..
     - name: Build
       run: cd build && make release
     - name: Upload a Build Artifact
