@@ -33,7 +33,7 @@ jobs:
     - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1
     - name: Generate build system
-      run: rm PreLoad.cmake && mkdir build && cd build && cmake .. -DBOOST_LIBRARYDIR=${BOOST_ROOT_1_72_0}
+      run: rm PreLoad.cmake && mkdir build && cd build && cmake ..
     - name: Build
       run: cd build && MSBuild pcConMon.sln /p:Configuration=Release /p:Platform=x64
     - name: Upload a Build Artifact
