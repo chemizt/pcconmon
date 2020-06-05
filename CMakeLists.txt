@@ -73,6 +73,11 @@ target_include_directories(
     PUBLIC external/pstreams
 )
 
+target_include_directories(
+    structureLib
+    PUBLIC external/json/single_include/nlohmann
+)
+
 target_link_libraries(structureLib PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(providerLib structureLib)
 target_link_libraries(testMain structureLib providerLib)

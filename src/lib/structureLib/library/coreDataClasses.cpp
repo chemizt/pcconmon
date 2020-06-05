@@ -131,3 +131,39 @@ string Device::getPartNumber()
 {
     return this->_partNumber;
 }
+
+void ManagedElement::serialize(json& j)
+{
+    j = json{{"_description", this->_description}, {"_id", this->_id}, {"_name", this->_name}};
+}
+
+void ManagedElement::deSerialize(const json& j)
+{
+    j.at("_description").get_to(this->_description);
+    j.at("_id").get_to(this->_id);
+    j.at("_name").get_to(this->_name);
+}
+
+void Device::serialize(json& j)
+{
+    json curJ = json{{"_capabilities", this->_capabilities}, {"_manufacturer", this->_manufacturer}, {"_model", this->_model},
+    {"_partNumber", this->_partNumber}, {"_serialNumber", this->_serialNumber}, {"_type", this->_type},
+    {"_version", this->_version}};
+    json mJ;
+
+    ManagedElement::serialize(mJ);
+    curJ.insert(mJ.begin(), mJ.end());
+    j = curJ;
+}
+
+void Device::deSerialize(const json& j)
+{
+    this->ManagedElement::deSerialize(j);
+    j.at("_capabilities").get_to(this->_capabilities);
+    j.at("_manufacturer").get_to(this->_manufacturer);
+    j.at("_model").get_to(this->_model);
+    j.at("_partNumber").get_to(this->_partNumber);
+    j.at("_serialNumber").get_to(this->_serialNumber);
+    j.at("_type").get_to(this->_type);
+    j.at("_version").get_to(this->_version);
+}

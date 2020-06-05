@@ -11,6 +11,9 @@ class IntegratedCircuit
         string _voltage;
         uint16_t _width;
     public:
+        IntegratedCircuit() { };
+        void serialize(json& j);
+        void deSerialize(const json& j);
         string getCurrentClock();
         string getVoltage();
         uint16_t getWidth();
@@ -24,6 +27,9 @@ class StorageUnit
     protected:
         uint64_t _size;
     public:
+        StorageUnit() { };
+        void serialize(json& j);
+        void deSerialize(const json& j);
         uint64_t getSize();
         void setSize(uint64_t newSize);
 };
@@ -40,6 +46,8 @@ class Processor : public Device, public IntegratedCircuit
         uint16_t _threadCount;
     public:
         Processor() { this->setDescription(""); this->setType(""); };
+        void serialize(json& j);
+        void deSerialize(const json& j);
         string getBusClock();
         string getFamily();
         string getMaxClock();
@@ -69,6 +77,8 @@ class VideoController : public Device
         uint16_t _minRefreshRate;
     public:
         VideoController() { this->setDescription(""); this->setType(""); };
+        void serialize(json& j);
+        void deSerialize(const json& j);
         string getVideoProcessor();
         uint16_t getCurrentHorizontalResolution();
         uint16_t getCurrentRefreshRate();
@@ -94,6 +104,8 @@ class DiskDrive : public Device, public StorageUnit
         uint16_t _bytesPerSector;
     public:
         DiskDrive() { this->setDescription(""); this->setType(""); };
+        void serialize(json& j);
+        void deSerialize(const json& j);
         string getFirmwareRevision();
         string getInterfaceType();
         string getLogicalName();
@@ -115,6 +127,8 @@ class BaseBoard : public Device
         bool _isReplaceable = false;
     public:
         BaseBoard() { this->setDescription(""); this->setType(""); };
+        void serialize(json& j);
+        void deSerialize(const json& j);
         bool isHosting();
         bool isHotswappable();
         bool isRemovable();
@@ -135,6 +149,8 @@ class SystemMemory : public Device, public IntegratedCircuit, public StorageUnit
         string _formFactor;
     public:
         SystemMemory() { this->setDescription(""); this->setType(""); };
+        void serialize(json& j);
+        void deSerialize(const json& j);
         string getChannel();
         string getDimmName();
         string getFormFactor();
@@ -155,6 +171,8 @@ class ComputerSystem : public Device
         vector<ManagedElement*> _videoControllers;
     public:
         ComputerSystem() { this->setDescription(""); this->setType(""); }
+        void serialize(json& j);
+        void deSerialize(const json& j);
         vector<ManagedElement*> getBaseBoards();
         vector<ManagedElement*> getDiskDrives();
         vector<ManagedElement*> getProcessors();

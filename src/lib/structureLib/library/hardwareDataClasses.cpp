@@ -565,3 +565,154 @@ void ComputerSystem::setVideoControllers(vector<ManagedElement*> newVideoControl
 {
     this->_videoControllers = newVideoControllersList;
 }
+
+void IntegratedCircuit::serialize(json& j)
+{
+    j = json{{"_currentClock", this->_currentClock}, {"_voltage", this->_voltage}, {"_width", this->_width}};
+}
+
+void IntegratedCircuit::deSerialize(const json& j)
+{
+    j.at("_currentClock").get_to(this->_currentClock);
+    j.at("_voltage").get_to(this->_voltage);
+    j.at("_width").get_to(this->_width);
+}
+
+void StorageUnit::serialize(json& j)
+{
+    j = json{{"_size", this->_size}};
+}
+
+void StorageUnit::deSerialize(const json& j)
+{
+    j.at("_size").get_to(this->_size);
+}
+
+void Processor::serialize(json& j)
+{
+    json curJ = json{{"_busClock", this->_busClock}, {"_family", this->_family}, {"_maxClock", this->_maxClock},
+    {"_socket", this->_socket}, {"_coreCount", this->_coreCount}, {"_enabledCoreCount", this->_enabledCoreCount},
+    {"_threadCount", this->_threadCount}};
+    json iCJ;
+    json dJ;
+
+    IntegratedCircuit::serialize(iCJ);
+    Device::serialize(dJ);
+    curJ.insert(iCJ.begin(), iCJ.end());
+    curJ.insert(dJ.begin(), dJ.end());
+    j = curJ;
+}
+
+void Processor::deSerialize(const json& j)
+{
+    this->IntegratedCircuit::deSerialize(j);
+    this->Device::deSerialize(j);
+    j.at("_busClock").get_to(this->_busClock);
+    j.at("_family").get_to(this->_family);
+    j.at("_maxClock").get_to(this->_maxClock);
+    j.at("_socket").get_to(this->_socket);
+    j.at("_coreCount").get_to(this->_coreCount);
+    j.at("_enabledCoreCount").get_to(this->_enabledCoreCount);
+    j.at("_threadCount").get_to(this->_threadCount);
+}
+
+void VideoController::serialize(json& j)
+{
+    json curJ = json{{"_videoProcessor", this->_videoProcessor}, {"_currentHorizontalResolution", this->_currentHorizontalResolution}, {"_currentRefreshRate", this->_currentRefreshRate},
+    {"_currentVerticalResolution", this->_currentVerticalResolution}, {"_maxRefreshRate", this->_maxRefreshRate}, {"_minRefreshRate", this->_minRefreshRate}};
+    json dJ;
+
+    Device::serialize(dJ);
+    curJ.insert(dJ.begin(), dJ.end());
+    j = curJ;
+}
+
+void VideoController::deSerialize(const json& j)
+{
+    this->Device::deSerialize(j);
+    j.at("_videoProcessor").get_to(this->_videoProcessor);
+    j.at("_currentHorizontalResolution").get_to(this->_currentHorizontalResolution);
+    j.at("_currentRefreshRate").get_to(this->_currentRefreshRate);
+    j.at("_currentVerticalResolution").get_to(this->_currentVerticalResolution);
+    j.at("_maxRefreshRate").get_to(this->_maxRefreshRate);
+    j.at("_minRefreshRate").get_to(this->_minRefreshRate);
+}
+
+void DiskDrive::serialize(json& j)
+{
+    json curJ = json{{"_firmwareRevision", this->_firmwareRevision}, {"_interfaceType", this->_interfaceType}, {"_logicalName", this->_logicalName},
+    {"_bytesPerSector", this->_bytesPerSector}};
+    json sUJ;
+    json dJ;
+
+    StorageUnit::serialize(sUJ);
+    Device::serialize(dJ);
+    curJ.insert(sUJ.begin(), sUJ.end());
+    curJ.insert(dJ.begin(), dJ.end());
+    j = curJ;
+}
+
+void DiskDrive::deSerialize(const json& j)
+{
+    this->StorageUnit::deSerialize(j);
+    this->Device::deSerialize(j);
+    j.at("_firmwareRevision").get_to(this->_firmwareRevision);
+    j.at("_interfaceType").get_to(this->_interfaceType);
+    j.at("_logicalName").get_to(this->_logicalName);
+    j.at("_bytesPerSector").get_to(this->_bytesPerSector);
+}
+
+void BaseBoard::serialize(json& j)
+{
+    json curJ = json{{"_isHosting", this->_isHosting}, {"_isHotswappable", this->_isHotswappable}, {"_isRemovable", this->_isRemovable},
+    {"_isReplaceable", this->_isReplaceable}};
+    json dJ;
+
+    Device::serialize(dJ);
+    curJ.insert(dJ.begin(), dJ.end());
+    j = curJ;
+}
+
+void BaseBoard::deSerialize(const json& j)
+{
+    this->Device::deSerialize(j);
+    j.at("_isHosting").get_to(this->_isHosting);
+    j.at("_isHotswappable").get_to(this->_isHotswappable);
+    j.at("_isRemovable").get_to(this->_isRemovable);
+    j.at("_isReplaceable").get_to(this->_isReplaceable);
+}
+
+void SystemMemory::serialize(json& j)
+{
+    json curJ = json{{"_channel", this->_channel}, {"_dimmName", this->_dimmName}, {"_formFactor", this->_formFactor}};
+    json sUJ;
+    json iCJ;
+    json dJ;
+
+    StorageUnit::serialize(sUJ);
+    IntegratedCircuit::serialize(iCJ);
+    Device::serialize(dJ);
+    curJ.insert(iCJ.begin(), iCJ.end());
+    curJ.insert(dJ.begin(), dJ.end());
+    j = curJ;
+}
+
+void SystemMemory::deSerialize(const json& j)
+{
+    this->StorageUnit::deSerialize(j);
+    this->IntegratedCircuit::deSerialize(j);
+    this->Device::deSerialize(j);
+    j.at("_channel").get_to(this->_channel);
+    j.at("_dimmName").get_to(this->_dimmName);
+    j.at("_formFactor").get_to(this->_formFactor);
+}
+
+void ComputerSystem::serialize(json& j)
+{
+
+}
+
+void ComputerSystem::deSerialize(const json& j)
+{
+
+}

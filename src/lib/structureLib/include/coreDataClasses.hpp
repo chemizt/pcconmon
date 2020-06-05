@@ -9,6 +9,8 @@ class ManagedElement
         string _description;
         string _id;
         string _name;
+        void serialize(json& j);
+        void deSerialize(const json& j);
     public:
         ManagedElement() { };
         string getDescription();
@@ -29,7 +31,10 @@ class Device : public ManagedElement
         string _serialNumber;
         string _type;
         string _version;
+        void serialize(json& j);
+        void deSerialize(const json& j);
     public:
+        Device() { };
         string getCapabilities();
         string getManufacturer();
         string getModel();

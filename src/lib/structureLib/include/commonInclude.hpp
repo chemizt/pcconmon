@@ -3,8 +3,10 @@
 
 #include <string>
 #include <vector>
+#include <json.hpp>
 
 using std::string;
 using std::vector;
+using nlohmann::json;
 
 #endif

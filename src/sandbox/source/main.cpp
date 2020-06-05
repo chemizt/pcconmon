@@ -18,6 +18,18 @@ int main()
     vector<ManagedElement*> motherboards = cs->getBaseBoards();
     vector<ManagedElement*> ram = cs->getSystemMemory();
 
+    json j;
+
+    ((Processor*)processors.at(0))->setVoltage("1.2");
+    ((Processor*)processors.at(0))->serialize(j);
+
+    cout << j << endl;
+
+    Processor* np = new Processor();
+    np->deSerialize(j);
+
+    processors.push_back(np);
+
     cout << "Central Processing Units:\n\n";
 
     for(ManagedElement* cpu : processors)
@@ -30,7 +42,8 @@ int main()
         << castCpu->getMaxClock() << "MHz\n\t\tCurrent Clock: "
         << castCpu->getCurrentClock() << "MHz\n\t\tFamily: "
         << castCpu->getFamily() << "\n\t\tSocket: "
-        << castCpu->getSocket() << "\n\t\tAddress Width: "
+        << castCpu->getSocket() << "\n\t\tVoltage: "
+        << castCpu->getVoltage() << "V\n\t\tAddress Width: "
         << castCpu->getWidth() << " bits\n\t\tCore Count: "
         << castCpu->getCoreCount() << "\n\t\tThread Count: "
         << castCpu->getThreadCount() << "\n\n";
