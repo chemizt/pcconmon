@@ -12,7 +12,14 @@ jobs:
     steps:
     - name: Checkout master
       uses: actions/checkout@v2
-    - name: Checkout submodules
+    - name: Cache submodules
+      id: cache-submods
+      uses: actions/cache@v2
+      with:
+        path: external/**
+        key: ${{ runner.os }}-submods    
+    - name: Checkout submodules if none are cached
+      if: steps.cache-submods.output.cache-hit != 'true'
       uses: textbook/git-checkout-submodule-action@2.1.1
     - name: Generate build system
       run: mkdir build && cd build && cmake -DBOOST_LIBRARYDIR=${BOOST_ROOT_1_72_0} ..
@@ -28,8 +35,15 @@ jobs:
     steps:
     - name: Checkout master
       uses: actions/checkout@v2
-    - name: Checkout submodules
-      run: git submodule update --init --recursive
+    - name: Cache submodules
+      id: cache-submods
+      uses: actions/cache@v2
+      with:
+        path: external/**
+        key: ${{ runner.os }}-submods    
+    - name: Checkout submodules if none are cached
+      if: steps.cache-submods.output.cache-hit != 'true'
+      uses: textbook/git-checkout-submodule-action@2.1.1
     - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1
     - name: Generate build system
