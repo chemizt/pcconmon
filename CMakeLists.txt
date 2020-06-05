@@ -40,7 +40,7 @@ endif()
 set(SOURCE_MAIN src/sandbox/source/main.cpp)
 set(SOURCE_CHAT src/sandbox/source/chat.cpp)
 
-find_package(Boost 1.71 REQUIRED)
+find_package(Boost REQUIRED)
 
 add_executable(
     testMain
