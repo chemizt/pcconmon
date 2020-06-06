@@ -692,6 +692,7 @@ void SystemMemory::serialize(json& j)
     StorageUnit::serialize(sUJ);
     IntegratedCircuit::serialize(iCJ);
     Device::serialize(dJ);
+    curJ.insert(sUJ.begin(), sUJ.end());
     curJ.insert(iCJ.begin(), iCJ.end());
     curJ.insert(dJ.begin(), dJ.end());
     j = curJ;
@@ -709,10 +710,90 @@ void SystemMemory::deSerialize(const json& j)
 
 void ComputerSystem::serialize(json& j)
 {
+    json curJ;
 
+    for (ManagedElement* baseBoard : _baseBoards)
+    {
+        json baseBoardJ;
+
+        ((BaseBoard*)baseBoard)->serialize(baseBoardJ);
+        curJ["_baseBoards"] += baseBoardJ;
+    }
+
+    for (ManagedElement* diskDrive : _diskDrives)
+    {
+        json diskDriveJ;
+
+        ((DiskDrive*)diskDrive)->serialize(diskDriveJ);
+        curJ["_diskDrives"] += diskDriveJ;
+    }
+
+    for (ManagedElement* processor : _processors)
+    {
+        json processorJ;
+
+        ((Processor*)processor)->serialize(processorJ);
+        curJ["_processors"] += processorJ;
+    }
+
+    for (ManagedElement* systemMemory : _systemMemory)
+    {
+        json systemMemoryJ;
+
+        ((SystemMemory*)systemMemory)->serialize(systemMemoryJ);
+        curJ["_systemMemory"] += systemMemoryJ;
+    }
+
+    for (ManagedElement* videoController : _videoControllers)
+    {
+        json videoControllerJ;
+
+        ((VideoController*)videoController)->serialize(videoControllerJ);
+        curJ["_videoControllers"] += videoControllerJ;
+    }
+
+    j = curJ;
 }
 
 void ComputerSystem::deSerialize(const json& j)
 {
+    for (json curJ : j["_baseBoards"])
+    {
+        BaseBoard* newB = new BaseBoard();
 
+        newB->deSerialize(curJ);
+        _baseBoards.push_back(newB);
+    }
+
+    for (json curJ : j["_diskDrives"])
+    {
+        DiskDrive* newD = new DiskDrive();
+
+        newD->deSerialize(curJ);
+        _diskDrives.push_back(newD);
+    }
+
+    for (json curJ : j["_processors"])
+    {
+        Processor* newP = new Processor();
+
+        newP->deSerialize(curJ);
+        _processors.push_back(newP);
+    }
+
+    for (json curJ : j["_systemMemory"])
+    {
+        SystemMemory* newM = new SystemMemory();
+
+        newM->deSerialize(curJ);
+        _systemMemory.push_back(newM);
+    }
+
+    for (json curJ : j["_videoControllers"])
+    {
+        VideoController* newC = new VideoController();
+
+        newC->deSerialize(curJ);
+        _videoControllers.push_back(newC);
+    }
 }
