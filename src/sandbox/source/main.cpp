@@ -1,8 +1,7 @@
 #include <iostream>
 
-#include "coreProviderClasses.hpp"
 #include "hardwareDataClasses.hpp"
-#include "hardwareProviderClasses.hpp"
+#include "hardwareInfoProviderClasses.hpp"
 
 using std::cin;
 using std::cout;

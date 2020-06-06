@@ -39,16 +39,6 @@ vector<ManagedElement*> InformationProvider::getAllManagedElements()
     return this->_createdManagedElements;
 }
 
-uint16_t InformationProvider::countRegexMatches(string infoString, string searchRegex)
-{
-    regex rgx(searchRegex);
-
-    auto matchStart = sregex_iterator(infoString.begin(), infoString.end(), rgx);
-    auto matchEnd = sregex_iterator();
-
-    return std::distance(matchStart, matchEnd);
-}
-
 vector<string> InformationProvider::splitStringByRegex(string infoString, string splitRegex)
 {
     regex rgx(splitRegex);

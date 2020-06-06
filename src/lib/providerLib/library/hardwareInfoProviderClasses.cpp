@@ -1,4 +1,4 @@
-#include "hardwareProviderClasses.hpp"
+#include "hardwareInfoProviderClasses.hpp"
 
 #pragma region createManagedElement
 
