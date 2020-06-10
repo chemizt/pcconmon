@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "debug testMain",
             "type": "cppdbg",
@@ -29,6 +30,26 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}\\out\\bin\\debug\\tcpChat.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Включить автоматическое форматирование для gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "debug pcConMonAgent",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\out\\bin\\debug\\pcConMonAgent.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
