@@ -169,6 +169,8 @@ class ComputerSystem : public Device
         vector<ManagedElement*> _processors;
         vector<ManagedElement*> _systemMemory;
         vector<ManagedElement*> _videoControllers;
+        string _operatingSystemName;
+        string _architecture;
     public:
         ComputerSystem() { this->setDescription(""); this->setType(""); }
         void serialize(json& j);
@@ -178,9 +180,13 @@ class ComputerSystem : public Device
         vector<ManagedElement*> getProcessors();
         vector<ManagedElement*> getSystemMemory();
         vector<ManagedElement*> getVideoControllers();
+        string getOperatingSystemName();
+        string getArchitecture();
+        void setArchitecture(string newArchitecture);
         void setBaseBoards(vector<ManagedElement*> newBaseBoardsList);
         void setDescription(string newDescription);
         void setDiskDrives(vector<ManagedElement*> newDiskDrivesList);
+        void setOperatingSystemName(string newOsName);
         void setProcessors(vector<ManagedElement*> newProcessorsList);
         void setSystemMemory(vector<ManagedElement*> newSystemMemoryList);
         void setType(string newType);

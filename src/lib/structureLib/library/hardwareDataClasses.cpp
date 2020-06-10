@@ -517,6 +517,16 @@ vector<ManagedElement*> ComputerSystem::getVideoControllers()
     return this->_videoControllers;    
 }
 
+string ComputerSystem::getArchitecture()
+{
+    return this->_architecture;
+}
+
+string ComputerSystem::getOperatingSystemName()
+{
+    return this->_operatingSystemName;
+}
+
 void ComputerSystem::setBaseBoards(vector<ManagedElement*> newBaseBoardsList)
 {
     this->_baseBoards = newBaseBoardsList;
@@ -564,6 +574,30 @@ void ComputerSystem::setType(string newType)
 void ComputerSystem::setVideoControllers(vector<ManagedElement*> newVideoControllersList)
 {
     this->_videoControllers = newVideoControllersList;
+}
+
+void ComputerSystem::setArchitecture(string newArchitecture)
+{
+    if (newArchitecture == "")
+    {
+        this->_architecture = "N/A";
+    }
+    else
+    {
+        this->_architecture = newArchitecture;
+    }
+}
+
+void ComputerSystem::setOperatingSystemName(string newOsName)
+{
+    if (newOsName == "")
+    {
+        this->_operatingSystemName = "N/A";
+    }
+    else
+    {
+        this->_operatingSystemName = newOsName;
+    }
 }
 
 void IntegratedCircuit::serialize(json& j)
@@ -711,6 +745,7 @@ void SystemMemory::deSerialize(const json& j)
 void ComputerSystem::serialize(json& j)
 {
     json curJ;
+    json dJ;
 
     for (ManagedElement* baseBoard : _baseBoards)
     {
@@ -752,11 +787,19 @@ void ComputerSystem::serialize(json& j)
         curJ["_videoControllers"] += videoControllerJ;
     }
 
+    curJ["_operatingSystemName"] = _operatingSystemName;
+    curJ["_architecture"] = _architecture;
+
+    Device::serialize(dJ);
+    curJ.insert(dJ.begin(), dJ.end());
+
     j = curJ;
 }
 
 void ComputerSystem::deSerialize(const json& j)
 {
+    this->ManagedElement::deSerialize(j);
+    
     for (json curJ : j["_baseBoards"])
     {
         BaseBoard* newB = new BaseBoard();
@@ -796,4 +839,7 @@ void ComputerSystem::deSerialize(const json& j)
         newC->deSerialize(curJ);
         _videoControllers.push_back(newC);
     }
+
+    j.at("_operatingSystemName").get_to(this->_operatingSystemName);
+    j.at("_architecture").get_to(this->_architecture);
 }

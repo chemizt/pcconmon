@@ -413,9 +413,52 @@ void SystemMemoryProvider::createManagedElement(string infoString)
     _createdManagedElements.push_back(result);
 }
 
-ManagedElement* ComputerSystemProvider::createManagedElement()
+void ComputerSystemProvider::createManagedElement(string infoString)
 {
     ComputerSystem* result = new ComputerSystem();
+
+    smatch matching;
+
+    #ifdef _WIN32
+    regex osNameRgx("Caption=.+(Windows.+)");
+    regex csNameRgx("CSName=(.+)");
+    regex architectureRgx("OSArchitecture=([0-9]+)");
+    #else
+    regex osNameRgx("Operating System: (.+)");
+    regex csNameRgx("Static hostname: (.+)");
+    regex architectureRgx("Architecture: (.+)");
+    #endif
+    
+    if (regex_search(infoString, matching, osNameRgx)) 
+    {
+        result->setOperatingSystemName(matching[1]);
+    }
+    else
+    {
+        result->setOperatingSystemName("");
+    }
+
+    if (regex_search(infoString, matching, csNameRgx)) 
+    {
+        result->setName(matching[1]);
+    }
+    else
+    {
+        result->setName("");
+    }
+
+    if (regex_search(infoString, matching, architectureRgx)) 
+    {
+        #ifdef _WIN32
+        result->setArchitecture("x" + matching[1].str());
+        #else
+        result->setArchitecture(matching[1]);
+        #endif
+    }
+    else
+    {
+        result->setArchitecture("");
+    }
 
     _baseBoardProv.scanForManagedElements();
     _diskDriveProv.scanForManagedElements();
@@ -429,7 +472,7 @@ ManagedElement* ComputerSystemProvider::createManagedElement()
     result->setSystemMemory(_sysMemProv.getAllManagedElements());
     result->setVideoControllers(_vidConProv.getAllManagedElements());
 
-    return result;
+    _createdManagedElements.push_back(result);
 }
 
 #pragma endregion
@@ -502,6 +545,19 @@ string SystemMemoryProvider::gatherBasicInfo()
     return result;
 }
 
+string ComputerSystemProvider::gatherBasicInfo()
+{
+    string result = "";
+
+    #ifdef _WIN32
+    result += _cmdExecutor->executeCommand("wmic path win32_operatingsystem get /all /format:textvaluelist");
+    #else
+    result += _cmdExecutor->executeCommand("hostnamectl");
+    #endif
+
+    return result;
+}
+
 #pragma endregion
 #pragma region gatherAdvancedInfo
 
@@ -536,6 +592,13 @@ void VideoControllerProvider::scanForManagedElements() //TODO: same as for Proce
 }
 
 void BaseBoardProvider::scanForManagedElements() //TODO: same as for ProcessorProvider
+{
+    string scanResult = this->gatherBasicInfo();
+        
+    this->createManagedElement(scanResult);
+}
+
+void ComputerSystemProvider::scanForManagedElements()
 {
     string scanResult = this->gatherBasicInfo();
         

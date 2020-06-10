@@ -28,7 +28,7 @@ class Client
         void listen();
         void talk();
     public:
-        Client() : service(), endPoint(boost::asio::ip::address::from_string("0.0.0.0"), 2020), sock(service) { };
+        Client() : service(), endPoint(boost::asio::ip::address::from_string("0.0.0.0"), 9090), sock(service) { };
         void connect();
 };
 
@@ -148,7 +148,7 @@ void Client::listen()
 {
     while (true)
     {
-        char data[512] = {};
+        char data[4096] = {};
 
         sock.read_some(boost::asio::buffer(data));
         std::cout << std::string(data) << std::endl;

@@ -61,7 +61,7 @@ class SystemMemoryProvider : public InformationProvider
         void scanForManagedElements();
 };
 
-class ComputerSystemProvider
+class ComputerSystemProvider : public InformationProvider
 {
     private:
         BaseBoardProvider _baseBoardProv;
@@ -69,9 +69,13 @@ class ComputerSystemProvider
         ProcessorProvider _processorProv;
         SystemMemoryProvider _sysMemProv;
         VideoControllerProvider _vidConProv;
+        string gatherBasicInfo();
+        void createManagedElement(string infoString);
     public:
+        using InformationProvider::InformationProvider;
         ComputerSystemProvider() { };
-        ManagedElement* createManagedElement();
+        ManagedElement* getManagedElement() { return _createdManagedElements.at(0); };
+        void scanForManagedElements();
 };
 
 #endif

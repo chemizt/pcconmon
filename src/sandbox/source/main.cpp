@@ -10,7 +10,8 @@ using std::endl;
 int main()
 {
     ComputerSystemProvider* csprov = new ComputerSystemProvider();
-    ComputerSystem* cs = (ComputerSystem*)csprov->createManagedElement();
+    csprov->scanForManagedElements();
+    ComputerSystem* cs = (ComputerSystem*)csprov->getManagedElement();
     vector<ManagedElement*> processors = cs->getProcessors();
     vector<ManagedElement*> gpus = cs->getVideoControllers();
     vector<ManagedElement*> drives = cs->getDiskDrives();
@@ -19,7 +20,6 @@ int main()
 
     json j;
 
-    ((Processor*)processors.at(0))->setVoltage("1.2");
     cs->serialize(j);
 
     cout << "\"Normal\" Computer System: " << endl;
@@ -118,15 +118,24 @@ int main()
         << "\n\n";
     }
 
-    cout << "De-Serialized Computer System: " << endl;
+    cout << "De-Serialized Computer System:\n" << endl;
 
     ComputerSystem* dSCS = new ComputerSystem();
     dSCS->deSerialize(j);
+    processors.clear();
+    gpus.clear();
+    drives.clear();
+    motherboards.clear();
+    ram.clear();
     processors = dSCS->getProcessors();
     gpus = dSCS->getVideoControllers();
     drives = dSCS->getDiskDrives();
     motherboards = dSCS->getBaseBoards();
     ram = dSCS->getSystemMemory();
+
+    cout << "\t\tName: " << dSCS->getName() << "\n\t\tOS Name: " 
+    << dSCS->getOperatingSystemName() << "\n\t\tArchitecture: " 
+    << dSCS->getArchitecture() << "\n" << endl; 
 
     cout << "Central Processing Units:\n\n";
 
