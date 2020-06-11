@@ -410,6 +410,8 @@ void SystemMemoryProvider::createManagedElement(string infoString)
         result->setWidth(std::stoi(matching[1]));
     }
 
+    result->setName("Физическая память " + result->getDimmName() + "-" + result->getChannel());
+
     _createdManagedElements.push_back(result);
 }
 
@@ -466,11 +468,49 @@ void ComputerSystemProvider::createManagedElement(string infoString)
     _sysMemProv.scanForManagedElements();
     _vidConProv.scanForManagedElements(); 
 
-    result->setBaseBoards(_baseBoardProv.getAllManagedElements());
-    result->setDiskDrives(_diskDriveProv.getAllManagedElements());
-    result->setProcessors(_processorProv.getAllManagedElements());
-    result->setSystemMemory(_sysMemProv.getAllManagedElements());
-    result->setVideoControllers(_vidConProv.getAllManagedElements());
+
+    vector<ManagedElement*> bbs = _baseBoardProv.getAllManagedElements();
+    vector<ManagedElement*> dds = _diskDriveProv.getAllManagedElements();
+    vector<ManagedElement*> procs = _processorProv.getAllManagedElements();
+    vector<ManagedElement*> sm = _sysMemProv.getAllManagedElements();
+    vector<ManagedElement*> vcs = _vidConProv.getAllManagedElements();
+
+    map<string, ManagedElement*> bbsm;
+    map<string, ManagedElement*> ddsm;
+    map<string, ManagedElement*> procsm;
+    map<string, ManagedElement*> smm;
+    map<string, ManagedElement*> vcsm;
+
+    for (ManagedElement* me : bbs)
+    {
+        bbsm.insert({me->getName(), me});
+    }
+
+    for (ManagedElement* me : dds)
+    {
+        ddsm.insert({me->getName(), me});
+    }
+
+    for (ManagedElement* me : procs)
+    {
+        procsm.insert({me->getName(), me});
+    }
+
+    for (ManagedElement* me : sm)
+    {
+        smm.insert({me->getName(), me});
+    }
+
+    for (ManagedElement* me : vcs)
+    {
+        vcsm.insert({me->getName(), me});
+    }
+
+    result->setBaseBoards(bbsm);
+    result->setDiskDrives(ddsm);
+    result->setProcessors(procsm);
+    result->setSystemMemory(smm);
+    result->setVideoControllers(vcsm);
 
     _createdManagedElements.push_back(result);
 }

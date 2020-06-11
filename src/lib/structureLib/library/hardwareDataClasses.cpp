@@ -492,27 +492,27 @@ void SystemMemory::setType(string newType)
     }
 }
 
-vector<ManagedElement*> ComputerSystem::getBaseBoards()
+map<string, ManagedElement*> ComputerSystem::getBaseBoards()
 {
     return this->_baseBoards;
 }
 
-vector<ManagedElement*> ComputerSystem::getDiskDrives()
+map<string, ManagedElement*> ComputerSystem::getDiskDrives()
 {
     return this->_diskDrives;
 }
 
-vector<ManagedElement*> ComputerSystem::getProcessors()
+map<string, ManagedElement*> ComputerSystem::getProcessors()
 {
     return this->_processors;
 }
 
-vector<ManagedElement*> ComputerSystem::getSystemMemory()
+map<string, ManagedElement*> ComputerSystem::getSystemMemory()
 {
     return this->_systemMemory;
 }
 
-vector<ManagedElement*> ComputerSystem::getVideoControllers()
+map<string, ManagedElement*> ComputerSystem::getVideoControllers()
 {
     return this->_videoControllers;    
 }
@@ -527,7 +527,7 @@ string ComputerSystem::getOperatingSystemName()
     return this->_operatingSystemName;
 }
 
-void ComputerSystem::setBaseBoards(vector<ManagedElement*> newBaseBoardsList)
+void ComputerSystem::setBaseBoards(map<string, ManagedElement*> newBaseBoardsList)
 {
     this->_baseBoards = newBaseBoardsList;
 }
@@ -544,17 +544,17 @@ void ComputerSystem::setDescription(string newDescription)
     }
 }
 
-void ComputerSystem::setDiskDrives(vector<ManagedElement*> newDiskDrivesList)
+void ComputerSystem::setDiskDrives(map<string, ManagedElement*> newDiskDrivesList)
 {
     this->_diskDrives = newDiskDrivesList;
 }
 
-void ComputerSystem::setProcessors(vector<ManagedElement*> newProcessorsList)
+void ComputerSystem::setProcessors(map<string, ManagedElement*> newProcessorsList)
 {
     this->_processors = newProcessorsList;
 }
 
-void ComputerSystem::setSystemMemory(vector<ManagedElement*> newSystemMemoryList)
+void ComputerSystem::setSystemMemory(map<string, ManagedElement*> newSystemMemoryList)
 {
     this->_systemMemory = newSystemMemoryList;
 }
@@ -571,7 +571,7 @@ void ComputerSystem::setType(string newType)
     }
 }
 
-void ComputerSystem::setVideoControllers(vector<ManagedElement*> newVideoControllersList)
+void ComputerSystem::setVideoControllers(map<string, ManagedElement*> newVideoControllersList)
 {
     this->_videoControllers = newVideoControllersList;
 }
@@ -747,43 +747,43 @@ void ComputerSystem::serialize(json& j)
     json curJ;
     json dJ;
 
-    for (ManagedElement* baseBoard : _baseBoards)
+    for (const auto& [key, value] : _baseBoards)
     {
         json baseBoardJ;
 
-        ((BaseBoard*)baseBoard)->serialize(baseBoardJ);
+        ((BaseBoard*)value)->serialize(baseBoardJ);
         curJ["_baseBoards"] += baseBoardJ;
     }
 
-    for (ManagedElement* diskDrive : _diskDrives)
+    for (const auto& [key, value] : _diskDrives)
     {
         json diskDriveJ;
 
-        ((DiskDrive*)diskDrive)->serialize(diskDriveJ);
+        ((DiskDrive*)value)->serialize(diskDriveJ);
         curJ["_diskDrives"] += diskDriveJ;
     }
 
-    for (ManagedElement* processor : _processors)
+    for (const auto& [key, value] : _processors)
     {
         json processorJ;
 
-        ((Processor*)processor)->serialize(processorJ);
+        ((Processor*)value)->serialize(processorJ);
         curJ["_processors"] += processorJ;
     }
 
-    for (ManagedElement* systemMemory : _systemMemory)
+    for (const auto& [key, value] : _systemMemory)
     {
         json systemMemoryJ;
 
-        ((SystemMemory*)systemMemory)->serialize(systemMemoryJ);
+        ((SystemMemory*)value)->serialize(systemMemoryJ);
         curJ["_systemMemory"] += systemMemoryJ;
     }
 
-    for (ManagedElement* videoController : _videoControllers)
+    for (const auto& [key, value] : _videoControllers)
     {
         json videoControllerJ;
 
-        ((VideoController*)videoController)->serialize(videoControllerJ);
+        ((VideoController*)value)->serialize(videoControllerJ);
         curJ["_videoControllers"] += videoControllerJ;
     }
 
@@ -805,7 +805,7 @@ void ComputerSystem::deSerialize(const json& j)
         BaseBoard* newB = new BaseBoard();
 
         newB->deSerialize(curJ);
-        _baseBoards.push_back(newB);
+        _baseBoards.insert({newB->getName(), newB});
     }
 
     for (json curJ : j["_diskDrives"])
@@ -813,7 +813,7 @@ void ComputerSystem::deSerialize(const json& j)
         DiskDrive* newD = new DiskDrive();
 
         newD->deSerialize(curJ);
-        _diskDrives.push_back(newD);
+        _diskDrives.insert({newD->getName(), newD});
     }
 
     for (json curJ : j["_processors"])
@@ -821,7 +821,7 @@ void ComputerSystem::deSerialize(const json& j)
         Processor* newP = new Processor();
 
         newP->deSerialize(curJ);
-        _processors.push_back(newP);
+        _processors.insert({newP->getName(), newP});
     }
 
     for (json curJ : j["_systemMemory"])
@@ -829,7 +829,7 @@ void ComputerSystem::deSerialize(const json& j)
         SystemMemory* newM = new SystemMemory();
 
         newM->deSerialize(curJ);
-        _systemMemory.push_back(newM);
+        _systemMemory.insert({newM->getName(), newM});
     }
 
     for (json curJ : j["_videoControllers"])
@@ -837,7 +837,7 @@ void ComputerSystem::deSerialize(const json& j)
         VideoController* newC = new VideoController();
 
         newC->deSerialize(curJ);
-        _videoControllers.push_back(newC);
+        _videoControllers.insert({newC->getName(), newC});
     }
 
     j.at("_operatingSystemName").get_to(this->_operatingSystemName);

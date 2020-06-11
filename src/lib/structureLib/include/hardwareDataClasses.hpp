@@ -1,8 +1,12 @@
 #ifndef IG_HARDWARE_CLASSES_SL
 #define IG_HARDWARE_CLASSES_SL
 
+#include <map>
+
 #include "coreDataClasses.hpp"
 #include "commonInclude.hpp"
+
+using std::map;
 
 class IntegratedCircuit
 {
@@ -164,33 +168,33 @@ class SystemMemory : public Device, public IntegratedCircuit, public StorageUnit
 class ComputerSystem : public Device
 {
     private:
-        vector<ManagedElement*> _baseBoards;
-        vector<ManagedElement*> _diskDrives;
-        vector<ManagedElement*> _processors;
-        vector<ManagedElement*> _systemMemory;
-        vector<ManagedElement*> _videoControllers;
+        map<string, ManagedElement*> _baseBoards;
+        map<string, ManagedElement*> _diskDrives;
+        map<string, ManagedElement*> _processors;
+        map<string, ManagedElement*> _systemMemory;
+        map<string, ManagedElement*> _videoControllers;
         string _operatingSystemName;
         string _architecture;
     public:
         ComputerSystem() { this->setDescription(""); this->setType(""); }
         void serialize(json& j);
         void deSerialize(const json& j);
-        vector<ManagedElement*> getBaseBoards();
-        vector<ManagedElement*> getDiskDrives();
-        vector<ManagedElement*> getProcessors();
-        vector<ManagedElement*> getSystemMemory();
-        vector<ManagedElement*> getVideoControllers();
+        map<string, ManagedElement*> getBaseBoards();
+        map<string, ManagedElement*> getDiskDrives();
+        map<string, ManagedElement*> getProcessors();
+        map<string, ManagedElement*> getSystemMemory();
+        map<string, ManagedElement*> getVideoControllers();
         string getOperatingSystemName();
         string getArchitecture();
         void setArchitecture(string newArchitecture);
-        void setBaseBoards(vector<ManagedElement*> newBaseBoardsList);
+        void setBaseBoards(map<string, ManagedElement*> newBaseBoardsList);
         void setDescription(string newDescription);
-        void setDiskDrives(vector<ManagedElement*> newDiskDrivesList);
+        void setDiskDrives(map<string, ManagedElement*> newDiskDrivesList);
         void setOperatingSystemName(string newOsName);
-        void setProcessors(vector<ManagedElement*> newProcessorsList);
-        void setSystemMemory(vector<ManagedElement*> newSystemMemoryList);
+        void setProcessors(map<string, ManagedElement*> newProcessorsList);
+        void setSystemMemory(map<string, ManagedElement*> newSystemMemoryList);
         void setType(string newType);
-        void setVideoControllers(vector<ManagedElement*> newVideoControllersList);
+        void setVideoControllers(map<string, ManagedElement*> newVideoControllersList);
 };
 
 #endif

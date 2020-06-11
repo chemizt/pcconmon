@@ -12,11 +12,11 @@ int main()
     ComputerSystemProvider* csprov = new ComputerSystemProvider();
     csprov->scanForManagedElements();
     ComputerSystem* cs = (ComputerSystem*)csprov->getManagedElement();
-    vector<ManagedElement*> processors = cs->getProcessors();
-    vector<ManagedElement*> gpus = cs->getVideoControllers();
-    vector<ManagedElement*> drives = cs->getDiskDrives();
-    vector<ManagedElement*> motherboards = cs->getBaseBoards();
-    vector<ManagedElement*> ram = cs->getSystemMemory();
+    map<string, ManagedElement*> processors = cs->getProcessors();
+    map<string, ManagedElement*> gpus = cs->getVideoControllers();
+    map<string, ManagedElement*> drives = cs->getDiskDrives();
+    map<string, ManagedElement*> motherboards = cs->getBaseBoards();
+    map<string, ManagedElement*> ram = cs->getSystemMemory();
 
     json j;
 
@@ -26,7 +26,7 @@ int main()
 
     cout << "Central Processing Units:\n\n";
 
-    for(ManagedElement* cpu : processors)
+    for(const auto& [key, cpu] : processors)
     {
         Processor* castCpu = (Processor*)cpu;
         
@@ -45,7 +45,7 @@ int main()
 
     cout << "Display Controllers:\n\n";
 
-    for(ManagedElement* gpu : gpus)
+    for(const auto& [key, gpu] : gpus)
     {
         VideoController* castGpu = (VideoController*)gpu;
         
@@ -62,7 +62,7 @@ int main()
     
     cout << "Physical Drives:\n\n";
 
-    for (ManagedElement* drive : drives)
+    for (const auto& [key, drive] : drives)
     {
         DiskDrive* castDrive = (DiskDrive*)drive;
 
@@ -83,7 +83,7 @@ int main()
 
     cout << "Motherboards:\n\n";
 
-    for (ManagedElement* motherboard : motherboards)
+    for (const auto& [key, motherboard] : motherboards)
     {
         BaseBoard* castMB = (BaseBoard*)motherboard;
 
@@ -100,7 +100,7 @@ int main()
 
     cout << "RAM Devices:\n\n";
 
-    for (ManagedElement* stick : ram)
+    for (const auto& [key, stick] : ram)
     {
         SystemMemory* castRAM = (SystemMemory*)stick;
 
@@ -139,7 +139,7 @@ int main()
 
     cout << "Central Processing Units:\n\n";
 
-    for(ManagedElement* cpu : processors)
+    for(const auto& [key, cpu] : processors)
     {
         Processor* castCpu = (Processor*)cpu;
         
@@ -158,7 +158,7 @@ int main()
 
     cout << "Display Controllers:\n\n";
 
-    for(ManagedElement* gpu : gpus)
+    for(const auto& [key, gpu] : gpus)
     {
         VideoController* castGpu = (VideoController*)gpu;
         
@@ -175,7 +175,7 @@ int main()
     
     cout << "Physical Drives:\n\n";
 
-    for (ManagedElement* drive : drives)
+    for (const auto& [key, drive] : drives)
     {
         DiskDrive* castDrive = (DiskDrive*)drive;
 
@@ -196,7 +196,7 @@ int main()
 
     cout << "Motherboards:\n\n";
 
-    for (ManagedElement* motherboard : motherboards)
+    for (const auto& [key, motherboard] : motherboards)
     {
         BaseBoard* castMB = (BaseBoard*)motherboard;
 
@@ -213,11 +213,12 @@ int main()
 
     cout << "RAM Devices:\n\n";
 
-    for (ManagedElement* stick : ram)
+    for (const auto& [key, stick] : ram)
     {
         SystemMemory* castRAM = (SystemMemory*)stick;
 
-        cout << "\n\t\tManufacturer: " << castRAM->getManufacturer()
+        cout << "\t\tName: " << castRAM->getName()
+        << "\n\t\tManufacturer: " << castRAM->getManufacturer()
         << "\n\t\tSerial Number: " << castRAM->getSerialNumber()
         << "\n\t\tPart Number: " << castRAM->getPartNumber()
         << "\n\t\tForm Factor: " << castRAM->getFormFactor()

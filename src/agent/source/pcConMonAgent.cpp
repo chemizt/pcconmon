@@ -31,6 +31,7 @@ class Agent
 
 void Agent::processTcpSession(boost::shared_ptr<boost::asio::ip::tcp::socket> sock)
 {
+    std::string fullAddress = sock->remote_endpoint().address().to_string() + ":" + std::to_string(sock->remote_endpoint().port());
     while (true)
     {
         char data[128] = {};
@@ -50,6 +51,8 @@ void Agent::processTcpSession(boost::shared_ptr<boost::asio::ip::tcp::socket> so
                     json j;
                     vector<uint8_t> vMsgPack;
 
+                    std::cout << "Received TCP SEND" << std::endl;
+
                     thisSystem->serialize(j);
                     vMsgPack = json::to_msgpack(j);
                     sock->write_some(boost::asio::buffer(vMsgPack));
@@ -59,6 +62,8 @@ void Agent::processTcpSession(boost::shared_ptr<boost::asio::ip::tcp::socket> so
                     json j;
                     vector<uint8_t> vMsgPack;
 
+                    std::cout << "Received TCP REFRESH" << std::endl;
+
                     informer.scanForManagedElements();
                     thisSystem->serialize(j);
                     vMsgPack = json::to_msgpack(j);
@@ -66,21 +71,24 @@ void Agent::processTcpSession(boost::shared_ptr<boost::asio::ip::tcp::socket> so
                 }
                 else if (strData == "SHUTDOWN")
                 {
+                    std::cout << "Received TCP SHUTDOWN" << std::endl;
+
                     commander.executeShutdownCommand();
-                    closeAllConnections();
+                    sock->close();
                     break;
                 }
                 else if (strData == "REBOOT")
                 {
+                    std::cout << "Received TCP REBOOT" << std::endl;
+
                     commander.executeRebootCommand();
-                    closeAllConnections();
+                    sock->close();
                     break;
                 }
             }
         }
         catch (std::exception& e)
         {
-            std::string fullAddress = sock->remote_endpoint().address().to_string() + ":" + std::to_string(sock->remote_endpoint().port());
             clients.erase(fullAddress);
             sock->close();
             break;
@@ -137,6 +145,7 @@ void Agent::listenUdp()
 
                 if (strData == "IDENTIFY")
                 {
+                    std::cout << "Received UDP IDENTIFY" << std::endl;
                     sock->send_to(boost::asio::buffer(thisSystem->getName()), remoteEndPoint);
                 }
                 else if (strData == "SHUTDOWN" || strData == "REBOOT")
@@ -171,6 +180,7 @@ int Agent::operate()
 {
     int opResult = 0;
 
+    std::cout << "Running PCConMon Agent v0.2.1" << std::endl;
     std::thread udpThread(&Agent::listenUdp, this);
     udpThread.detach();
     listenTcp();
