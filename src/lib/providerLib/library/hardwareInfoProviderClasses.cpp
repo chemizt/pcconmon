@@ -313,6 +313,8 @@ void BaseBoardProvider::createManagedElement(string infoString)
         result->setReplaceable();
     }
 
+    result->setName(result->getModel());
+
     _createdManagedElements.push_back(result);
 }
 
