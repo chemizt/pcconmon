@@ -30,22 +30,22 @@ string IntegratedCircuit::getVoltage()
     return this->_voltage;
 }
 
-uint16_t IntegratedCircuit::getWidth()
+string IntegratedCircuit::getWidth()
 {
     return this->_width;
 }
 
-uint16_t Processor::getCoreCount()
+string Processor::getCoreCount()
 {
     return this->_coreCount;
 }
 
-uint16_t Processor::getEnabledCoreCount()
+string Processor::getEnabledCoreCount()
 {
     return this->_enabledCoreCount;
 }
 
-uint16_t Processor::getThreadCount()
+string Processor::getThreadCount()
 {
     return this->_threadCount;
 }
@@ -147,22 +147,22 @@ void IntegratedCircuit::setVoltage(string newVoltage)
     }
 }
 
-void IntegratedCircuit::setWidth(uint16_t newWidth)
+void IntegratedCircuit::setWidth(string newWidth)
 {
     this->_width = newWidth;
 }
 
-void Processor::setCoreCount(uint16_t newCoreCount)
+void Processor::setCoreCount(string newCoreCount)
 {
     this->_coreCount = newCoreCount;
 }
 
-void Processor::setEnabledCoreCount(uint16_t newEnabledCoreCount)
+void Processor::setEnabledCoreCount(string newEnabledCoreCount)
 {
     this->_enabledCoreCount = newEnabledCoreCount;
 }
 
-void Processor::setThreadCount(uint16_t newThreadCount)
+void Processor::setThreadCount(string newThreadCount)
 {
     this->_threadCount = newThreadCount;
 }
@@ -172,27 +172,27 @@ string VideoController::getVideoProcessor()
     return this->_videoProcessor;
 }
 
-uint16_t VideoController::getCurrentHorizontalResolution()
+string VideoController::getCurrentHorizontalResolution()
 {
     return this->_currentHorizontalResolution;
 }
 
-uint16_t VideoController::getCurrentRefreshRate()
+string VideoController::getCurrentRefreshRate()
 {
     return this->_currentRefreshRate;
 }
 
-uint16_t VideoController::getCurrentVerticalResolution()
+string VideoController::getCurrentVerticalResolution()
 {
     return this->_currentVerticalResolution;
 }
 
-uint16_t VideoController::getMaxRefreshRate()
+string VideoController::getMaxRefreshRate()
 {
     return this->_maxRefreshRate;
 }
 
-uint16_t VideoController::getMinRefreshRate()
+string VideoController::getMinRefreshRate()
 {
     return this->_minRefreshRate;
 }
@@ -233,27 +233,27 @@ void VideoController::setType(string newType)
     }
 }
 
-void VideoController::setCurrentHorizontalResolution(uint16_t newCurrentHorizontalResolution)
+void VideoController::setCurrentHorizontalResolution(string newCurrentHorizontalResolution)
 {
     this->_currentHorizontalResolution = newCurrentHorizontalResolution;
 }
 
-void VideoController::setCurrentRefreshRate(uint16_t newCurrentRefreshRate)
+void VideoController::setCurrentRefreshRate(string newCurrentRefreshRate)
 {
     this->_currentRefreshRate = newCurrentRefreshRate;
 }
 
-void VideoController::setCurrentVerticalResolution(uint16_t newCurrentVerticalResolution)
+void VideoController::setCurrentVerticalResolution(string newCurrentVerticalResolution)
 {
     this->_currentVerticalResolution = newCurrentVerticalResolution;
 }
 
-void VideoController::setMaxRefreshRate(uint16_t newMaxRefreshRate)
+void VideoController::setMaxRefreshRate(string newMaxRefreshRate)
 {
     this->_maxRefreshRate = newMaxRefreshRate;
 }
 
-void VideoController::setMinRefreshRate(uint16_t newMinRefreshRate)
+void VideoController::setMinRefreshRate(string newMinRefreshRate)
 {
     this->_minRefreshRate = newMinRefreshRate;
 }
@@ -273,12 +273,12 @@ string DiskDrive::getLogicalName()
     return this->_logicalName;
 }
 
-uint16_t DiskDrive::getBytesPerSector()
+string DiskDrive::getBytesPerSector()
 {
     return this->_bytesPerSector;
 }
 
-uint64_t StorageUnit::getSize()
+string StorageUnit::getSize()
 {
     return this->_size;
 }
@@ -319,12 +319,12 @@ void DiskDrive::setLogicalName(string newLogicalName)
     }
 }
 
-void DiskDrive::setBytesPerSector(uint16_t newBytesPerSector)
+void DiskDrive::setBytesPerSector(string newBytesPerSector)
 {
     this->_bytesPerSector = newBytesPerSector;
 }
 
-void StorageUnit::setSize(uint64_t newSize)
+void StorageUnit::setSize(string newSize)
 {
     this->_size = newSize;
 }

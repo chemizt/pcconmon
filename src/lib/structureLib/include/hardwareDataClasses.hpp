@@ -13,29 +13,29 @@ class IntegratedCircuit
     protected:
         string _currentClock;
         string _voltage;
-        uint16_t _width;
+        string _width;
     public:
         IntegratedCircuit() { };
         void serialize(json& j);
         void deSerialize(const json& j);
         string getCurrentClock();
         string getVoltage();
-        uint16_t getWidth();
+        string getWidth();
         void setCurrentClock(string newCurrentClock);
         void setVoltage(string newVoltage);
-        void setWidth(uint16_t newWidth);
+        void setWidth(string newWidth);
 };
 
 class StorageUnit
 {
     protected:
-        uint64_t _size;
+        string _size;
     public:
         StorageUnit() { };
         void serialize(json& j);
         void deSerialize(const json& j);
-        uint64_t getSize();
-        void setSize(uint64_t newSize);
+        string getSize();
+        void setSize(string newSize);
 };
 
 class Processor : public Device, public IntegratedCircuit
@@ -45,9 +45,9 @@ class Processor : public Device, public IntegratedCircuit
         string _family;
         string _maxClock;
         string _socket;
-        uint16_t _coreCount;
-        uint16_t _enabledCoreCount;
-        uint16_t _threadCount;
+        string _coreCount;
+        string _enabledCoreCount;
+        string _threadCount;
     public:
         Processor() { this->setDescription(""); this->setType(""); };
         void serialize(json& j);
@@ -56,17 +56,17 @@ class Processor : public Device, public IntegratedCircuit
         string getFamily();
         string getMaxClock();
         string getSocket();
-        uint16_t getCoreCount();
-        uint16_t getEnabledCoreCount();
-        uint16_t getThreadCount();
+        string getCoreCount();
+        string getEnabledCoreCount();
+        string getThreadCount();
         void setBusClock(string newBusClock);
-        void setCoreCount(uint16_t newCoreCount);
+        void setCoreCount(string newCoreCount);
         void setDescription(string newDescription);
-        void setEnabledCoreCount(uint16_t newEnabledCoreCount);
+        void setEnabledCoreCount(string newEnabledCoreCount);
         void setFamily(string newFamily);
         void setMaxClock(string newMaxClock);
         void setSocket(string newSocket);
-        void setThreadCount(uint16_t newThreadCount);
+        void setThreadCount(string newThreadCount);
         void setType(string newType);
 };
 
@@ -74,27 +74,27 @@ class VideoController : public Device
 {
     private:
         string _videoProcessor;
-        uint16_t _currentHorizontalResolution;
-        uint16_t _currentRefreshRate;
-        uint16_t _currentVerticalResolution;
-        uint16_t _maxRefreshRate;
-        uint16_t _minRefreshRate;
+        string _currentHorizontalResolution;
+        string _currentRefreshRate;
+        string _currentVerticalResolution;
+        string _maxRefreshRate;
+        string _minRefreshRate;
     public:
         VideoController() { this->setDescription(""); this->setType(""); };
         void serialize(json& j);
         void deSerialize(const json& j);
         string getVideoProcessor();
-        uint16_t getCurrentHorizontalResolution();
-        uint16_t getCurrentRefreshRate();
-        uint16_t getCurrentVerticalResolution();
-        uint16_t getMaxRefreshRate();
-        uint16_t getMinRefreshRate();
-        void setCurrentHorizontalResolution(uint16_t newCurrentHorizontalResolution);
-        void setCurrentRefreshRate(uint16_t newCurrentRefreshRate);
-        void setCurrentVerticalResolution(uint16_t newCurrentVerticalResolution);
+        string getCurrentHorizontalResolution();
+        string getCurrentRefreshRate();
+        string getCurrentVerticalResolution();
+        string getMaxRefreshRate();
+        string getMinRefreshRate();
+        void setCurrentHorizontalResolution(string newCurrentHorizontalResolution);
+        void setCurrentRefreshRate(string newCurrentRefreshRate);
+        void setCurrentVerticalResolution(string newCurrentVerticalResolution);
         void setDescription(string newDescription);
-        void setMaxRefreshRate(uint16_t newMaxRefreshRate);
-        void setMinRefreshRate(uint16_t newMinRefreshRate);
+        void setMaxRefreshRate(string newMaxRefreshRate);
+        void setMinRefreshRate(string newMinRefreshRate);
         void setType(string newType);
         void setVideoProcessor(string newVideoProcessor);
 };
@@ -105,7 +105,7 @@ class DiskDrive : public Device, public StorageUnit
         string _firmwareRevision;
         string _interfaceType;
         string _logicalName;
-        uint16_t _bytesPerSector;
+        string _bytesPerSector;
     public:
         DiskDrive() { this->setDescription(""); this->setType(""); };
         void serialize(json& j);
@@ -113,8 +113,8 @@ class DiskDrive : public Device, public StorageUnit
         string getFirmwareRevision();
         string getInterfaceType();
         string getLogicalName();
-        uint16_t getBytesPerSector();
-        void setBytesPerSector(uint16_t newBytesPerSector);
+        string getBytesPerSector();
+        void setBytesPerSector(string newBytesPerSector);
         void setDescription(string newDescription);
         void setFirmwareRevision(string newFirmwareRevision);
         void setInterfaceType(string newInterfaceType);

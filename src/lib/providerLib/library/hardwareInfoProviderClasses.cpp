@@ -70,22 +70,22 @@ void ProcessorProvider::createManagedElement(string infoString)
 
     if (regex_search(infoString, matching, widthRgx)) 
     {
-        result->setWidth(std::stoi(matching[1]));
+        result->setWidth(matching[1]);
     }
 
     if (regex_search(infoString, matching, coreRgx))
     {
-        result->setCoreCount(std::stoi(matching[1]));
+        result->setCoreCount(matching[1]);
     }
 
     if (regex_search(infoString, matching, threadRgx))
     {
-        result->setThreadCount(std::stoi(matching[1]));
+        result->setThreadCount(matching[1]);
     }
 
     if (regex_search(infoString, matching, enabledCoreRgx))
     {
-        result->setEnabledCoreCount(std::stoi(matching[1]));
+        result->setEnabledCoreCount(matching[1]);
     }
 
     _createdManagedElements.push_back(result);
@@ -107,22 +107,22 @@ void VideoControllerProvider::createManagedElement(string infoString)
 
     if (regex_search(infoString, matching, maxRefRateRgx)) 
     {
-        result->setMaxRefreshRate(std::stoi(matching[1]));
+        result->setMaxRefreshRate(matching[1]);
     }
 
     if (regex_search(infoString, matching, minRefRateRgx)) 
     {
-        result->setMinRefreshRate(std::stoi(matching[1]));
+        result->setMinRefreshRate(matching[1]);
     }
 
     if (regex_search(infoString, matching, currentHorResRgx)) 
     {
-        result->setCurrentHorizontalResolution(std::stoi(matching[1]));
+        result->setCurrentHorizontalResolution(matching[1]);
     }
     
     if (regex_search(infoString, matching, currentVerResRgx)) 
     {
-        result->setCurrentVerticalResolution(std::stoi(matching[1]));
+        result->setCurrentVerticalResolution(matching[1]);
     }
     #else
     regex currentRefRateRgx("CurrentRefreshRate=([0-9]+)");
@@ -133,22 +133,22 @@ void VideoControllerProvider::createManagedElement(string infoString)
 
     if (regex_search(infoString, matching, refRateRgx)) 
     {
-        result->setMaxRefreshRate(std::stoi(matching[2]));
+        result->setMaxRefreshRate(matching[2]);
     }
 
     if (regex_search(infoString, matching, refRateRgx)) 
     {
-        result->setMinRefreshRate(std::stoi(matching[1]));
+        result->setMinRefreshRate(matching[1]);
     }
 
     if (regex_search(infoString, matching, resRgx)) 
     {
-        result->setCurrentHorizontalResolution(std::stoi(matching[1]));
+        result->setCurrentHorizontalResolution(matching[1]);
     }
 
     if (regex_search(infoString, matching, resRgx)) 
     {
-        result->setCurrentVerticalResolution(std::stoi(matching[2]));
+        result->setCurrentVerticalResolution(matching[2]);
     }
     #endif
 
@@ -159,7 +159,7 @@ void VideoControllerProvider::createManagedElement(string infoString)
 
     if (regex_search(infoString, matching, currentRefRateRgx)) 
     {
-        result->setCurrentRefreshRate(std::stoi(matching[1]));
+        result->setCurrentRefreshRate(matching[1]);
     }
 
     if (regex_search(infoString, matching, videoProcessorRgx)) 
@@ -207,7 +207,7 @@ void DiskDriveProvider::createManagedElement(string infoString)
 
     if (regex_search(infoString, matching, bytesPerSectorRgx)) 
     {
-        result->setBytesPerSector(std::stoi(matching[1]));
+        result->setBytesPerSector(matching[1]);
     }
     
     if (regex_search(infoString, matching, fwRevRgx)) 
@@ -239,9 +239,9 @@ void DiskDriveProvider::createManagedElement(string infoString)
     if (regex_search(infoString, matching, sizeRgx)) 
     {
         #ifdef _WIN32
-        result->setSize(std::stoull(matching[1]));
+        result->setSize(matching[1]);
         #else
-        result->setSize(std::stoull(matching[1]) * 1024 * 1024);
+        result->setSize(std::to_string(std::stoull(matching[1]) * 1024 * 1024));
         #endif
     }
 
@@ -352,9 +352,9 @@ void SystemMemoryProvider::createManagedElement(string infoString)
     if (regex_search(infoString, matching, capacityRgx)) 
     {
         #ifdef _WIN32
-        result->setSize(std::stoull(matching[1]));
+        result->setSize(matching[1]);
         #else
-        result->setSize(std::stoull(matching[1]) * 1024 * 1024);
+        result->setSize(std::to_string(std::stoull(matching[1]) * 1024 * 1024));
         #endif
     }
 
@@ -409,7 +409,7 @@ void SystemMemoryProvider::createManagedElement(string infoString)
 
     if (regex_search(infoString, matching, widthRgx)) 
     {
-        result->setWidth(std::stoi(matching[1]));
+        result->setWidth(matching[1]);
     }
 
     result->setName("Физическая память " + result->getDimmName() + "-" + result->getChannel());
