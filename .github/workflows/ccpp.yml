@@ -32,6 +32,8 @@ jobs:
       with:
         name: testMain
         path: out/bin/release/testMain
+        name: pcConMonAgent
+        path: out/bin/release/pcConMonAgent
   build-windows:
     runs-on: windows-latest
     steps:
@@ -57,3 +59,5 @@ jobs:
       with:
         name: testMain.exe
         path: out/bin/release/testMain.exe
+        name: pcConMonAgent.exe
+        path: out/bin/release/pcConMonAgent.exe
