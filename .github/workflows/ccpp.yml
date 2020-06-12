@@ -30,10 +30,8 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: testMain
-        path: out/bin/release/testMain
-        name: pcConMonAgent
-        path: out/bin/release/pcConMonAgent
+        name: Linux-built testMain and Agent
+        path: out/bin/release/*
   build-windows:
     runs-on: windows-latest
     steps:
@@ -57,7 +55,5 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: testMain.exe
-        path: out/bin/release/testMain.exe
-        name: pcConMonAgent.exe
-        path: out/bin/release/pcConMonAgent.exe
+        name: Windows-built testMain and Agent
+        path: out/bin/release/*.exe
