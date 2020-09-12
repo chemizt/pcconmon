@@ -6,13 +6,8 @@ cmake_policy(SET CMP0074 NEW)
 cmake_policy(SET CMP0079 NEW)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/bin/debug)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/lib/debug)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/out/lib/debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/out/bin/release)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/out/lib/release)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/out/lib/release)
 
-set(CMAKE_STATIC_LIBRARY_PREFIX "")
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 if (UNIX)
@@ -44,6 +39,8 @@ endif()
 
 set(SOURCE_MAIN src/sandbox/source/main.cpp)
 set(SOURCE_AGENT src/agent/source/pcConMonAgent.cpp)
+set(STRUCTURE_LIB_INCLUDE_DIR external/pcconmonLibs/src/lib/structureLib/include)
+set(PROVIDER_LIB_INCLUDE_DIR external/pcconmonLibs/src/lib/providerLib/include)
 
 find_package(Boost REQUIRED date_time regex)
 
@@ -57,39 +54,22 @@ add_executable(
     ${SOURCE_AGENT}
 )
 
-add_subdirectory(src/lib/structureLib)
-
-add_subdirectory(src/lib/providerLib)
-
-add_subdirectory(external/json)
+add_subdirectory(external/pcconmonLibs)
 
 target_include_directories(
     testMain
-    PUBLIC src/lib/structureLib/include
-    PUBLIC src/lib/providerLib/include
+    PUBLIC ${STRUCTURE_LIB_INCLUDE_DIR}
+    PUBLIC ${PROVIDER_LIB_INCLUDE_DIR}
 )
 
 target_include_directories(
     pcConMonAgent
     PUBLIC ${Boost_INCLUDE_DIRS}
-    PUBLIC external/json/single_include/nlohmann
-    PUBLIC src/lib/structureLib/include
-    PUBLIC src/lib/providerLib/include
+    PUBLIC external/pcconmonLibs/external/json/single_include/nlohmann
+    PUBLIC ${STRUCTURE_LIB_INCLUDE_DIR}
+    PUBLIC ${PROVIDER_LIB_INCLUDE_DIR}
 )
 
-target_include_directories(
-    providerLib
-    PUBLIC src/lib/structureLib/include
-    PUBLIC external/pstreams
-)
-
-target_include_directories(
-    structureLib
-    PUBLIC external/json/single_include/nlohmann
-)
-
-target_link_libraries(structureLib PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(providerLib structureLib)
 target_link_libraries(testMain structureLib providerLib)
 target_link_libraries(pcConMonAgent structureLib providerLib ${Boost_LIBRARIES} ${ADDITIONAL_LIBRARIES} nlohmann_json::nlohmann_json)
 
