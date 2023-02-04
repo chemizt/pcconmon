@@ -26,7 +26,7 @@ jobs:
       run: git submodule update --init --recursive
       
     - name: Set up Boost location
-      run: echo "::set-env name=Boost_ROOT::$BOOST_ROOT_1_72_0"
+      run: echo "Boost_ROOT=$BOOST_ROOT_1_72_0" >> $GITHUB_ENV
     
     - name: Generate build system
       run: mkdir build && cd build && cmake ..
