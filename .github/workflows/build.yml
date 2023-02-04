@@ -26,6 +26,7 @@ jobs:
       run: git submodule update --init --recursive
 
     - name: Download and install Boost
+      id: boost-setup
       uses: MarkusJx/install-boost@v2.4.3
       with:
         boost_version: 1.81.0
@@ -34,6 +35,9 @@ jobs:
     
     - name: Generate build system
       run: mkdir build && cd build && cmake ..
+      env:
+        BOOST_ROOT: ${{ steps.boost-setup.outputs.BOOST_ROOT }}
+        BOOST_VER: ${{ steps.boost-setup.outputs.BOOST_VER }}
       
     - name: Build
       run: cd build && cmake --build .
@@ -66,6 +70,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1
       
     - name: Download and install Boost
+      id: boost-setup
       uses: MarkusJx/install-boost@v2.4.3
       with:
         boost_version: 1.81.0
@@ -73,7 +78,10 @@ jobs:
         toolset: msvc
       
     - name: Generate build system
-      run: rm PreLoad.cmake && mkdir build && cd build && cmake -DBoost_ROOT="${env:BOOST_ROOT}" -DBoost_LIBRARIES="${env:BOOST_ROOT}\lib" ..
+      run: rm PreLoad.cmake && mkdir build && cd build && cmake ..
+      env:
+        BOOST_ROOT: ${{ steps.boost-setup.outputs.BOOST_ROOT }}
+        BOOST_VER: ${{ steps.boost-setup.outputs.BOOST_VER }}
       
     - name: Build
       run: cd build && MSBuild pcConMon.sln /p:Configuration=Release /p:Platform=x64 /m
