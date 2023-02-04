@@ -1,5 +1,5 @@
 # pcconmon
-![build](https://github.com/chemizt/pcconmon/workflows/build/badge.svg?branch=master)
+[![build](https://github.com/chemizt/pcconmon/actions/workflows/build.yml/badge.svg)](https://github.com/chemizt/pcconmon/actions/workflows/build.yml)
 
 PC Configuration and Monitoring Software
 
