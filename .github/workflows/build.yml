@@ -40,7 +40,9 @@ jobs:
         BOOST_VER: ${{ steps.boost-setup.outputs.BOOST_VER }}
       
     - name: Build
-      run: cd build && cmake --build .
+      run: |
+        cmake --build ./build
+        ls -lhaR
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
