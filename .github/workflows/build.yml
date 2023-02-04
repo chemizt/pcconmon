@@ -42,7 +42,7 @@ jobs:
     - name: Build
       run: |
         cmake --build ./build
-        ls -lhaR
+        ls -lhaR ./build
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
