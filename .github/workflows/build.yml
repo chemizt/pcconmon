@@ -24,15 +24,19 @@ jobs:
     - name: Checkout submodules if none are cached
       if: steps.cache-submods.outputs.cache-hit != 'true'
       run: git submodule update --init --recursive
-      
-    - name: Set up Boost location
-      run: echo "Boost_ROOT=$BOOST_ROOT_1_72_0" >> $GITHUB_ENV
+
+    - name: Download and install Boost
+      uses: MarkusJx/install-boost@v2.4.3
+      with:
+        version: 1.81.0
+        platform_version: 20.04
+        toolset: gcc
     
     - name: Generate build system
       run: mkdir build && cd build && cmake ..
       
     - name: Build
-      run: cd build && make release -j2
+      run: cd build && cmake --build .
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
@@ -61,8 +65,15 @@ jobs:
     - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1
       
+    - name: Download and install Boost
+      uses: MarkusJx/install-boost@v2.4.3
+      with:
+        version: 1.81.0
+        platform_version: 2022
+        toolset: msvc
+      
     - name: Generate build system
-      run: rm PreLoad.cmake && mkdir build && cd build && cmake -DBoost_ROOT="${env:BOOST_ROOT_1_72_0}" -DBoost_LIBRARIES="${env:BOOST_ROOT_1_72_0}\lib" ..
+      run: rm PreLoad.cmake && mkdir build && cd build && cmake -DBoost_ROOT="${env:BOOST_ROOT}" -DBoost_LIBRARIES="${env:BOOST_ROOT}\lib" ..
       
     - name: Build
       run: cd build && MSBuild pcConMon.sln /p:Configuration=Release /p:Platform=x64 /m
